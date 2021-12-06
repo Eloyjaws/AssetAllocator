@@ -22,6 +22,11 @@ def normal(x, mu, sigma_sq):
 
 
 class Policy(nn.Module):
+    """This is the policy network for the REINFORCCE Agent.
+
+    This implementation was adapted from https://github.com/chingyaoc/pytorch-REINFORCE
+    
+    """
     def __init__(self, hidden_size, num_inputs, action_space):
         super(Policy, self).__init__()
         self.action_space = action_space
@@ -41,7 +46,15 @@ class Policy(nn.Module):
 
 
 class REINFORCE:
+    
     def __init__(self, hidden_size, num_inputs, action_space):
+        """Initializes the REINFORCE Agent
+
+        Args:
+            hidden_size (int): Size of hidden layer neurons in the policy network
+            num_inputs (str): input size to the first hidden dimension.
+            action_space (gym.env.Box): Action space of the gym environment
+        """      
         self.action_space = action_space
         self.model = Policy(hidden_size, num_inputs, action_space)
         self.model = self.model.to(device)
@@ -49,6 +62,14 @@ class REINFORCE:
         self.model.train()
 
     def select_action(self, state):
+        """Takes in current environment's state and returns the agent's action
+
+        Args:
+            state (array_like): Current environment state
+
+        Returns:
+            action: Agent's action
+        """
         mu, sigma_sq = self.model(Variable(state).to(device))
         sigma_sq = F.softplus(sigma_sq)
 
@@ -62,6 +83,17 @@ class REINFORCE:
         return action, log_prob, entropy
 
     def update_parameters(self, rewards, log_probs, entropies, gamma):
+        """Takes in previous reward, log probabilities, entropies and noise to update the policy network's parameters
+
+        Args:
+            rewards (array_like): rewards from previous step
+            log_probs
+            entropies
+            gamma
+
+        Returns:
+            action: Agent's action
+        """
         R = torch.zeros(1, 1)
         loss = 0
         for i in reversed(range(len(rewards))):

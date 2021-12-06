@@ -1,56 +1,66 @@
-"""
-	This file is the executable for running TRPO. It is adapted from https://github.com/MEfeTiryaki/trpo by Mehmet Efe Tiryaki
-"""
 
 from itertools import count
 import signal
 import sys
 import os
 import time
-
 sys.path.append('..')
 import numpy as np
-
 import gym
-
 import torch
 import torch.autograd as autograd
 from torch.autograd import Variable
 import scipy.optimize
-
 import matplotlib.pyplot as plt
-
 from .value import Value
 from .policy import Policy
 from .utils import *
-
 from .trpo import trpo_step
 
 class TRPOAgent:
+    """
+        This is the agent class for the Trust Region Policy Optmization Algorithm.
+
+        Original paper can be found at https://arxiv.org/abs/1502.05477
+
+        This implementation was adapted from https://github.com/MEfeTiryaki/trpo/blob/master/train.py    
+    """
     def __init__(
         self,
         env,
         device = 'cuda',
         damping=0.1,        
-        # episode_length=1000,
         episode_length= 2000,
         fisher_ratio=1,
         gamma=0.995,
         l2_reg=0.001,
         lambda_=0.97,
-        load=False,
-        load_dir='.',
-        log=False,
         lr=0.001,
         max_iteration_number=200,
         max_kl=0.01,
-        render=False,
         save=False,
         seed=543,
         val_opt_iter=200,
         value_memory=1,
         value_memory_shuffle=False):
+        """Initialize a TRPOAgent object.
         
+        Params
+        ======
+            env (PortfolioGymEnv): instance of environment
+            device: device type (one of cuda or cpu)
+            damping: policy optimization parameter
+            episode_length: max step size for one episode
+            fisher_ratio: policy optimization parameter
+            l2_reg: l2 regularization regression
+            lambda_: gae
+            max_iteration_number: max policy iteration number
+            max_kl: max kl divergence (policy optimization parameter)
+            val_opt_iter: iteration number for value function learning
+            lr (float): learning rate
+            gamma (float): discount factor
+            seed (int): random seed
+        """        
         self.env = env
         self.device = device
         self.damping = damping
@@ -59,14 +69,10 @@ class TRPOAgent:
         self.gamma = gamma
         self.l2_reg = l2_reg
         self.lambda_ = lambda_
-        self.load = load
-        self.load_dir = load_dir
-        self.log = log
         self.lr = lr        
         self.max_iteration_number = max_iteration_number
         self.max_kl = max_kl
         self.val_opt_iter = val_opt_iter
-        self.render = render
         self.save = save
         self.seed = seed
         self.value_memory = value_memory
@@ -80,9 +86,14 @@ class TRPOAgent:
         
         
     def signal_handler(self, sig, frame):
-        """ Signal Handler to save the networks when shutting down via ctrl+C
-        Parameters:
-        Returns:
+        """ 
+            Signal Handler to save the networks when shutting down via ctrl+C
+            Parameters:
+            ==========
+            sig
+            frame
+            
+            Returns:
         """
         if(self.save):
             valueParam = get_flat_params_from(self.value_net)
@@ -95,9 +106,15 @@ class TRPOAgent:
         env.close()
         sys.exit(0)
 
-    def prepare_data(self, batch,valueBatch,previousBatch):
+    def prepare_data(self, batch, valueBatch, previousBatch):
         """ 
-        Get the batch data and calculate value,return and generalized advantage
+            Get the batch data and calculate value,return and generalized advantage
+            Parameters:
+            ==========
+            batch
+            valueBatch
+            previousBatch
+            
         """
 
         stateList = [ torch.from_numpy(np.concatenate(x,axis=0)).to(self.device) for x in batch["states"]]
@@ -144,10 +161,11 @@ class TRPOAgent:
         valueBatch["targets"] =  torch.cat((previousBatch["returns"],batch["returns"]),0)
 
     def update_policy(self, batch):
-        """ Get advantage , states and action and calls trpo step
-        Parameters:
-        batch (dict of arrays of numpy) : TODO (batch is different than prepare_data by structure)
-        Returns:
+        """ 
+            Get advantage , states and action and calls trpo step
+            Parameters:
+            batch (dict of arrays of numpy)
+            Returns:
         """
         advantages = batch["advantages"]
         states = batch["states"]
@@ -155,10 +173,11 @@ class TRPOAgent:
         trpo_step(self.policy_net, states,actions,advantages , self.max_kl, self.damping)
 
     def update_value(self, valueBatch):
-        """ Get valueBatch and run adam optimizer to learn value function
-        Parameters:
-        valueBatch  (dict of arrays of numpy) : TODO
-        Returns:
+        """ 
+            Get valueBatch and run adam optimizer to learn value function
+            Parameters:
+            valueBatch  (dict of arrays of numpy)
+            Returns:
         """
         # shuffle the data
         dataSize = valueBatch["targets"].size()[0]
@@ -181,9 +200,12 @@ class TRPOAgent:
             loss.backward()
             optimizer.step()
 
-    def save_to_previousBatch(self, previousBatch,batch):
+    def save_to_previousBatch(self, previousBatch, batch):
         """ 
             Save previous batch to use in future value optimization
+            Parameters:
+            previousBatch  (dict of arrays of numpy)
+            batch (dict of arrays of numpy)
         """
         if self.value_memory<0:
             print("Value memory should be equal or greater than zero")
@@ -206,15 +228,16 @@ class TRPOAgent:
             previousBatch["returns"] = previousBatch["returns"][permutation]
 
     def calculate_loss(self, reward_sum_mean,reward_sum_std,test_number = 10):
-        """ Calculate mean cummulative reward for test_nubmer of trials
+        """ 
+            Calculate mean cummulative reward for test_nubmer of trials
 
-        Parameters:
-        reward_sum_mean (list): holds the history of the means.
-        reward_sum_std (list): holds the history of the std.
+            Parameters:
+            reward_sum_mean (list): holds the history of the means.
+            reward_sum_std (list): holds the history of the std.
 
-        Returns:
-        list: new value appended means
-        list: new value appended stds
+            Returns:
+            list: new value appended means
+            list: new value appended stds
         """
         rewardSum = []
         for i in range(test_number):
@@ -246,6 +269,14 @@ class TRPOAgent:
 
                 
     def learn(self, timesteps, print_every = 1):
+        """
+        Trains the agent
+
+        Params
+        ======
+            timesteps (int): Number of timesteps the agent should interact with the environment
+            print_every (int): Verbosity control
+        """
         signal.signal(signal.SIGINT, self.signal_handler)
         time_start = time.time()
 
@@ -327,11 +358,3 @@ class TRPOAgent:
             #print("episode %d | total: %.4f "%( i_episode, time.time()-time_episode_start))
             reward_sum_mean,reward_sum_std = self.calculate_loss(reward_sum_mean,reward_sum_std)
             #print("loss | mean : %6.4f / std : %6.4f"%(reward_sum_mean[-1],reward_sum_std[-1]))
-
-
-if __name__ == '__main__':
-    env_name = 'Pendulum-v0'
-    env = gym.make(env_name)
-    agent = TRPOAgent(env)
-    agent.learn(5000)
-    env.close()

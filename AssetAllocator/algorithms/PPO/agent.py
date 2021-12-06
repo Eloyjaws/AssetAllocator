@@ -1,9 +1,3 @@
-"""
-	The file contains the PPO class to train with.
-	NOTE: All "ALG STEP"s are following the numbers from the original PPO pseudocode.
-			It can be found here: https://spinningup.openai.com/en/latest/_images/math/e62a8971472597f4b014c2da064f636ffe365ba3.svg
-"""
-
 import numpy as np
 import time
 import torch
@@ -14,7 +8,12 @@ import torch.nn.functional as F
 
 class PPOAgent:
 	"""
-		This is the PPO class we will use as our model in main.py
+		This is the agent class for the Proximal Policy Optimization Algorithm.
+  
+      	Original paper can be found at https://arxiv.org/abs/1707.06347
+
+    	This implementation was adapted from https://github.com/ericyangyu/PPO-for-Beginners
+    
 	"""
 	def __init__(self, env, device = 'cuda', timesteps_per_batch = 50_000, max_timesteps_per_episode = 2_000,
                 n_updates_per_iteration = 5, lr = 0.005, gamma = 0.95, clip = 0.2,
@@ -23,8 +22,9 @@ class PPOAgent:
 			Initializes the PPO model, including hyperparameters.
 
 			Parameters:
+			==========
 				policy_class - the policy class to use for our actor/critic networks.
-				env - the environment to train on.
+				env (PortfolioGymEnv): instance of environment
 				hyperparameters - all extra arguments passed into PPO that should be hyperparameters.
 
 			Returns:
@@ -45,9 +45,6 @@ class PPOAgent:
 		self.render = render
 		self.seed = seed
 
-		# Change any default values to custom values for specified hyperparameters
-		# for param, val in hyperparameters.items():
-		# 	exec('self.' + param + ' = ' + str(val))
 
 		# Sets the seed if specified
 		if self.seed != None:
@@ -91,7 +88,9 @@ class PPOAgent:
 			Train the actor and critic networks. Here is where the main PPO algorithm resides.
 
 			Parameters:
+			===========
 				total_timesteps - the total number of timesteps to train for
+    			print_every (int): Verbosity control
 
 			Return:
 				None
@@ -119,10 +118,6 @@ class PPOAgent:
 			V, _ = self.evaluate(batch_obs, batch_acts)
 			A_k = batch_rtgs - V.detach()                                                                       # ALG STEP 5
 
-			# One of the only tricks I use that isn't in the pseudocode. Normalizing advantages
-			# isn't theoretically necessary, but in practice it decreases the variance of 
-			# our advantages and makes convergence much more stable and faster. I added this because
-			# solving some environments was too unstable without it.
 			A_k = (A_k - A_k.mean()) / (A_k.std() + 1e-10)
 
 			# This is the loop where we update our network for some n epochs
@@ -165,6 +160,13 @@ class PPOAgent:
 
 				
 	def save(self):
+		"""
+        Saves trained model
+        
+		Parameters:
+			None        
+
+        """
 		torch.save(self.actor, './ppo_actor.pth')
 		torch.save(self.critic, './ppo_critic.pth')
 
@@ -261,6 +263,13 @@ class PPOAgent:
 
 
 	def load(env, actor_model):
+		"""
+		Load trained model
+
+		Params
+		=====
+		actor_model : folder path to save the agent
+		"""
 		# Extract out dimensions of observation and action spaces
 		obs_dim = env.observation_space.shape[0]
 		act_dim = env.action_space.shape[0]

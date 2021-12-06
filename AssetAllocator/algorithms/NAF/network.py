@@ -3,7 +3,26 @@ import torch.nn as nn
 from torch.distributions import MultivariateNormal
 
 class NAFNetwork(nn.Module):
+    """
+        Neural Network Approximator for NAF.
+
+        Original paper can be found at https://arxiv.org/abs/1906.04594
+
+        This implementation was adapted from https://github.com/BY571/Normalized-Advantage-Function-NAF-
+    """
+
     def __init__(self, state_size, action_size,layer_size, seed, device):
+        """
+        Computes the forward pass of the NAF Network
+
+        Params
+        =====
+        state_size: state space size
+        action_size: action space size
+        layer_size: number of neurons in hidden layer
+        seef: random seed
+        device: one of cuda or cpu
+        """
         super(NAFNetwork, self).__init__()
         self.seed = torch.manual_seed(seed)
         self.input_shape = state_size
@@ -20,9 +39,13 @@ class NAFNetwork(nn.Module):
         
     def forward(self, input_, action=None):
         """
-        
-        """
+        Computes the forward pass of the NAF Network
 
+        Params
+        =====
+        input_ : State tensor
+        action : Action tensor
+        """
         x = torch.relu(self.head_1(input_))
         x = torch.relu(self.ff_1(x))
         action_value = torch.tanh(self.action_values(x))

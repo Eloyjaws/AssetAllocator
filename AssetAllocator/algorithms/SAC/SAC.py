@@ -62,7 +62,6 @@ class ValueNetwork(nn.Module):
         self.linear3.bias.data.uniform_(-init_w, init_w)
         
     def forward(self, state):
-        state = state.double()
         x = F.relu(self.linear1(state))
         x = F.relu(self.linear2(x))
         x = self.linear3(x)
@@ -81,7 +80,7 @@ class SoftQNetwork(nn.Module):
         self.linear3.bias.data.uniform_(-init_w, init_w)
         
     def forward(self, state, action):
-        x = torch.cat([state, action], 1).double()
+        x = torch.cat([state, action], 1)
         x = F.relu(self.linear1(x))
         x = F.relu(self.linear2(x))
         x = self.linear3(x)
@@ -109,7 +108,6 @@ class PolicyNetwork(nn.Module):
         self.log_std_linear.bias.data.uniform_(-init_w, init_w)
         
     def forward(self, state):
-        state = state.double()
         x = F.relu(self.linear1(state))
         x = F.relu(self.linear2(x))
         

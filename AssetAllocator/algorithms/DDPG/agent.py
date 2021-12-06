@@ -16,7 +16,51 @@ from .OU_Noise import OrnsteinUhlenbeckNoise
 
 class DDPGAgentHelper:
 
-    def __init__(self, env, state_dim, action_dim, max_action, device, memory_capacity=10000, num_memory_fill_episodes=10, discount=0.99, tau=0.005, sigma=0.2, theta=0.15, actor_lr=1e-4, critic_lr=1e-3, batch_size=64, warmup_steps = 100):
+    """This is the agent class for the DDPG Agent.
+
+    Original paper can be found at https://arxiv.org/abs/1509.02971
+
+    This implementation was adapted from https://github.com/saashanair/rl-series/tree/master/ddpg
+    
+    """
+    def __init__(
+        self,
+        env, 
+        state_dim, 
+        action_dim, 
+        max_action, 
+        device, 
+        memory_capacity=10000, 
+        num_memory_fill_episodes=10, 
+        discount=0.99, 
+        tau=0.005, 
+        sigma=0.2, 
+        theta=0.15, 
+        actor_lr=1e-4, 
+        critic_lr=1e-3, 
+        batch_size=64, 
+        warmup_steps = 100
+        ):
+        """Helper class for Initializing a DDPG Agent
+
+        Args:
+            env (gym object): Gym environment for the agent to interact with
+            state_dim (int): State space dimension
+            action_dim (int): Action space dimension
+            max_action (int): the max value of the range in the action space (assumes a symmetric range in the action space)
+            device (str, optional): One of cuda or cpu. Defaults to 'cuda'.
+            memory_capacity (int, optional): Size of replay buffer. Defaults to 10_000.
+            num_memory_fill_episodes (int, optional): Number of elements to initialize in the replay buffer. Defaults to 10.
+            discount (float, optional): Reward discount factor. Defaults to 0.99.
+            tau (float, optional): Polyak averaging soft updates factor (i.e., soft updating of the target networks). Defaults to 0.005.
+            sigma (float, optional): Amount of noise to be applied to the OU process. Defaults to 0.2.
+            theta (float, optional): Amount of frictional force to be applied in OU noise generation. Defaults to 0.15.
+            actor_lr ([type], optional): Actor's learning rate. Defaults to 1e-4.
+            critic_lr ([type], optional): Critic's learning rate. Defaults to 1e-3.
+            batch_size (int, optional): Batch size for replay buffer and networks. Defaults to 128.
+            warmup_steps (int, optional): Memory warmup steps. Defaults to 100.
+        """      
+
         self.env = env
         self.batch_size = batch_size
 
@@ -63,6 +107,9 @@ class DDPGAgentHelper:
         self.target_critic.to(self.device)
 
     def fill_memory(self):
+        """
+        Helper method to fill replay buffer during the warmup steps
+        """   
         epochs = self.warmup_steps//self.env.episode_length + 1
         for epoch in range(epochs):
             state = self.env.reset()
@@ -96,12 +143,10 @@ class DDPGAgentHelper:
         During testing, no noise is added to the action decision.
         Parameters
         ---
-        state: vector or tensor
-            The current state of the environment as observed by the agent
-
-        Returns
-        ---
-        A numpy array representing the noisy action to be performed by the agent in the current state
+        state (array_like): The current state of the environment as observed by the agent
+        
+        Returns:
+            action: A numpy array representing the noisy action to be performed by the agent in the current state
         """
 
         if not torch.is_tensor(state):
@@ -127,16 +172,9 @@ class DDPGAgentHelper:
             min=0, max=self.max_action)
         return DDPGAgentHelper._softmax(noisy_action)
 
-    def _learn(self, current_step):
+    def _learn(self):
         """
         Function to perform the updates on the 4 neural networks that run the DDPG algorithm.
-        Parameters
-        ---
-        batchsize: int
-            Number of experiences to be randomly sampled from the memory for the agent to learn from
-        Returns
-        ---
-        none
         """
         if len(self.memory) < self.batch_size:
             return
@@ -177,10 +215,26 @@ class DDPGAgentHelper:
         self.soft_update_targets()
 
     def learn(self, timesteps, print_every=100):
+        """
+        Trains the agent
+
+        Params
+        ======
+            timesteps (int): Number of timesteps the agent should interact with the environment
+            print_every (int): Verbosity control
+        """
         self.fill_memory()  # to populate the replay buffer before learning begins
         self.train(timesteps, print_every)
 
     def predict(self, state):
+        """Returns agent's action based on a given state
+
+        Args:
+            state (array_like): Current environment state
+
+        Returns:
+            action (array_like): Agent's action
+        """      
         ou = self.ou_noise
         self.actor.eval()
         self.critic.eval()
@@ -195,16 +249,10 @@ class DDPGAgentHelper:
 
     def soft_update_net(self, source_net_params, target_net_params):
         """
-        Function to perform Polyak averaging to update the parameters of the provided network
-        Parameters
-        ---
-        source_net_params: list
-            trainable parameters of the source, ie. current version of the network
-        target_net_params: list
-            trainable parameters of the corresponding target network
-        Returns
-        ---
-        none
+        Perform Polyak averaging to update the parameters of the provided network
+        Args:
+            source_net_params (list): trainable parameters of the source, ie. current version of the network
+            target_net_params (list): trainable parameters of the corresponding target network
         """
 
         for source_param, target_param in zip(source_net_params, target_net_params):
@@ -212,7 +260,7 @@ class DDPGAgentHelper:
                 self.tau * source_param.data + (1 - self.tau) * target_param.data)
 
     def soft_update_targets(self):
-        """ Function that calls Polyak averaging on all three target networks """
+        """ Function that calls Polyak averaging on both target networks """
 
         self.soft_update_net(self.actor.parameters(),
                              self.target_actor.parameters())
@@ -220,6 +268,12 @@ class DDPGAgentHelper:
                              self.target_critic.parameters())
 
     def train(self, timesteps, print_every):
+        """Helper method to train the agent
+
+        Args:
+            timesteps (int): Total timesteps the agent has interacted for
+            print_every (int): Verbosity control
+        """     
         reward_history = []  # tracks the reward per episode
         best_score = -np.inf
 
@@ -259,10 +313,24 @@ class DDPGAgentHelper:
                     break
                 
     def save(self, file_name):
+        """
+        Saves trained model
+
+        Params
+        =====
+        filepath(str) : folder path to save the agent
+        """
         self.actor.save_model(f"{file_name}_actor")
         self.critic.save_model(f"{file_name}_critic")
 
     def load(self, file_name):
+        """
+        Loads trained model
+
+        Params
+        =====
+        filepath(str) : folder path to save the agent
+        """
         self.actor.load_model(f"{file_name}_actor")
         self.critic.load_model(f"{file_name}_critic")
 
@@ -280,6 +348,15 @@ default_device = torch.device(
 
 
 def DDPGAgent(env, device=default_device):
+    """Factory function for creating a DDPG Agent
+
+    Args:
+        env (gym object): Gym environment for the agent to interact with
+        device (string, optional): Device for training - defaults to Cuda if GPU is detected
+
+    Returns:
+        agent: DDPG Agent Instance
+    """
     ddpg_agent = DDPGAgentHelper(env=env,
                            state_dim=env.observation_space.shape[0],
                            action_dim=env.action_space.shape[0],

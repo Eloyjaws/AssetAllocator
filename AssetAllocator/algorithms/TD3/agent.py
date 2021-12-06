@@ -7,6 +7,13 @@ from .memory import Memory
 import numpy as np
 
 class TD3Agent:
+    """This is the agent class for the TD3 Agent.
+
+    Original paper can be found at https://arxiv.org/abs/1802.09477
+
+    This implementation was adapted from https://github.com/saashanair/rl-series/tree/master/td3
+    
+    """
     def __init__(
             self,
             env,
@@ -28,6 +35,29 @@ class TD3Agent:
             add_lstm = False,
             warmup_steps = 100):
 
+        """Initializes the TD3 Agent
+
+        Args:
+            env (gym object): Gym environment for the agent to interact with
+            hidden_dim (int, optional): Size of hidden layer neurons. Defaults to 256.
+            device (str, optional): One of cuda or cpu. Defaults to 'cuda'.
+            memory_dim (int, optional): Size of replay buffer. Defaults to 100_000.
+            max_action (int, optional): Action scaling factor. Defaults to 1.
+            discount (float, optional): Reward discount factor. Defaults to 0.99.
+            update_freq (int, optional): Number of times to update targets networks. Defaults to 2.
+            tau (float, optional): Polyak averaging soft updates factor. Defaults to 0.005.
+            policy_noise_std (float, optional): Standard deviation of noise. Defaults to 0.2.
+            policy_noise_clip (float, optional): Clip value of noise. Defaults to 0.5.
+            actor_lr (float, optional): Actor's learning rate. Defaults to 1e-3.
+            critic_lr (float, optional): Critic's learning rate. Defaults to 1e-3.
+            batch_size (int, optional): Batch size for replay buffer and networks. Defaults to 128.
+            exploration_noise (float, optional): Exploration noise value. Defaults to 0.1.
+            num_layers (int, optional): Number of LSTM layers. Defaults to 3.
+            dropout (float, optional): Dropout value of LSTM. Defaults to 0.2.
+            add_lstm (bool, optional): Boolean flag to add LSTM or not. Defaults to False.
+            warmup_steps (int, optional): Memory warmup steps. Defaults to 100.
+        """            
+
         self.env = env
         self.state_dim = env.observation_space.shape[0]
         self.hidden_dim = hidden_dim
@@ -46,8 +76,8 @@ class TD3Agent:
         self.batch_size = batch_size
         self.exploration_noise = exploration_noise
         self.eval = False
-        self.num_layers = 3
-        self.dropout = 0.2
+        self.num_layers = num_layers
+        self.dropout =dropout
         self.warmup_steps = warmup_steps
 
         # Instatiate Memory Buffer
@@ -114,13 +144,24 @@ class TD3Agent:
 
     # for test mode
     def eval_mode(self):
+        """
+        Switches agent from training mode to eval mode
+        """        
         self.eval = True
         self.actor.eval()
         self.critic1.eval()
         self.critic2.eval()
     
     def select_action(self, state, exploration_noise=0.1):
+        """Takes in current environment's state and returns the agent's action
 
+        Args:
+            state (array_like): Current environment state
+            exploration_noise (float, optional): Policy exploration noise. Defaults to 0.1.
+
+        Returns:
+            action: Agent's action
+        """
         if not torch.is_tensor(state):
             state = torch.tensor(np.array([state]), dtype=torch.float32).to(self.device)
 
@@ -138,6 +179,9 @@ class TD3Agent:
         return noisy_action
 
     def _update(self, source_net_params, target_net_params):
+        """
+        Helper method to update target network weights
+        """        
         for source_param, target_param in zip(
                 source_net_params, target_net_params):
             target_param.data.copy_(
@@ -154,6 +198,12 @@ class TD3Agent:
     
     @staticmethod
     def _softmax(x, axis = 0):
+        """Helper method to softmax action values
+
+        Args:
+            x (array_like): Action values
+            axis (int, optional): Defaults to 0.
+        """        
         # Use the LogSumExp Trick
         max_val = np.amax(x, axis=axis, keepdims = True)
         x = x - max_val
@@ -165,6 +215,11 @@ class TD3Agent:
         return softmax
 
     def _learn(self, iteration):
+        """Helper method to train agent
+
+        Args:
+            iteration (int): Number of training iterations
+        """        
         if len(self.memory) < self.batch_size:
             return
 
@@ -176,7 +231,6 @@ class TD3Agent:
         actions = actions.view(-1, self.action_dim)
         rewards = rewards.view(-1, 1)
         
-        #print(states.shape, actions.shape, next_states.shape, rewards.shape, dones.shape)
         
         with torch.no_grad():
             # Target Policy Smoothing
@@ -213,7 +267,6 @@ class TD3Agent:
         if iteration % self.update_freq == 0:
 
             # Compute actor loss
-            # print(states.shape)
             pred_current_actions = self.actor(states)
             pred_current_q1 = self.critic1(states, pred_current_actions)
             actor_loss = - pred_current_q1.mean()
@@ -226,6 +279,9 @@ class TD3Agent:
             self.update_targets()
 
     def fill_memory(self):
+        """
+        Helper method to fill replay buffer during the warmup steps
+        """        
         fill_memory_epochs = self.warmup_steps//self.env.episode_length
         
         for _ in range(fill_memory_epochs):
@@ -243,6 +299,14 @@ class TD3Agent:
                 state = next_state
 
     def train(self, total_steps, timesteps, print_every, count_of_dones):
+        """Helper method to train the agent
+
+        Args:
+            total_steps (int): Total steps the agent has taken
+            timesteps (int): Total timesteps the agent has interacted for
+            print_every (int): Verbosity control
+            count_of_dones (int): Count of completed episodes
+        """        
         done = False
         state = self.env.reset()
         ep_reward = 0
@@ -271,11 +335,27 @@ class TD3Agent:
         return total_steps, count_of_dones
 
     def predict(self, state):
+        """Returns agent's action based on a given state
+
+        Args:
+            state (array_like): Current environment state
+
+        Returns:
+            action (array_like): Agent's action
+        """        
         self.eval_mode()
         action = self.select_action(state, self.exploration_noise)
         return action
 
     def learn(self, timesteps, print_every = 1):
+        """
+        Trains the agent
+
+        Params
+        ======
+            timesteps (int): Number of timesteps the agent should interact with the environment
+            print_every (int): Verbosity control
+        """
         epochs = timesteps//self.env.episode_length + 1
         self.fill_memory()
         print('Startup memory filled!')
@@ -286,17 +366,31 @@ class TD3Agent:
         for _ in range(epochs):
             total_steps, count_of_dones = self.train(total_steps, timesteps, print_every, count_of_dones)
 
-    def save(self, filename):
-        torch.save(self.critic1.state_dict(), filename + '_critic1')
-        torch.save(self.critic1.optimizer.state_dict(), filename + '_critic1_optimizer')
+    def save(self, filepath):
+        """
+        Saves trained model
 
-        torch.save(self.critic2.state_dict(), filename + '_critic2')
-        torch.save(self.critic2.optimizer.state_dict(), filename + '_critic2_optimizer')
+        Params
+        =====
+        filepath(str) : folder path to save the agent
+        """
+        torch.save(self.critic1.state_dict(), filepath + '_critic1')
+        torch.save(self.critic1.optimizer.state_dict(), filepath + '_critic1_optimizer')
 
-        torch.save(self.actor.state_dict(), filename + '_actor')
-        torch.save(self.actor.optimizer.state_dict(), filename + '_actor_optimizer')
+        torch.save(self.critic2.state_dict(), filepath + '_critic2')
+        torch.save(self.critic2.optimizer.state_dict(), filepath + '_critic2_optimizer')
+
+        torch.save(self.actor.state_dict(), filepath + '_actor')
+        torch.save(self.actor.optimizer.state_dict(), filepath + '_actor_optimizer')
 
     def load(self, filename):
+        """
+        Loads trained model
+
+        Params
+        =====
+        filepath(str) : folder path to save the agent
+        """
         self.critic1.load_state_dict(torch.load(filename + '_critic1'))
         self.critic1.optimizer.load_state_dict(torch.load(filename + '_critic1_optimizer'))
 

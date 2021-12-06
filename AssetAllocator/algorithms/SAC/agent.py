@@ -15,9 +15,33 @@ from torch.distributions import Normal
 from .SAC import *
 
 class SACAgent:
+
+    """This is the agent class for the SAC Agent.
+    Original paper can be found at https://arxiv.org/abs/1802.09477
+    This implementation was adapted from https://github.com/higgsfield/RL-Adventure-2/blob/master/7.soft%20actor-critic.ipynb
+    
+    """
+
     def __init__(self, env, hidden_dim = 256, value_lr = 3e-4, soft_q_lr = 3e-4, policy_lr = 3e-4,
                  gamma=0.99, mean_lambda=1e-3, std_lambda=1e-3, z_lambda=0.0, soft_tau=1e-2,
                  replay_buffer_size = 1_000_000, batch_size = 128, device = 'cpu'):
+        """Initializes the TD3 Agent
+        Args:
+            env ([type]): Gym environment for the agent to interact with
+            hidden_dim (int, optional): Size of hidden layer neurons. Defaults to 256.
+            device (str, optional): One of cuda or cpu. Defaults to 'cuda'.
+            memory_dim ([type], optional): Size of replay buffer. Defaults to 100_000.
+            max_action (int, optional): Action scaling factor. Defaults to 1.
+            discount (float, optional): Reward discount factor. Defaults to 0.99.
+            update_freq (int, optional): Number of times to update targets networks. Defaults to 2.
+            tau (float, optional): Polyak averaging soft updates factor. Defaults to 0.005.
+            policy_noise_std (float, optional): Standard deviation of noise. Defaults to 0.2.
+            policy_noise_clip (float, optional): Clip value of noise. Defaults to 0.5.
+            actor_lr ([type], optional): Actor's learning rate. Defaults to 1e-3.
+            critic_lr ([type], optional): Critic's learning rate. Defaults to 1e-3.
+            batch_size (int, optional): Batch size for replay buffer and networks. Defaults to 128.
+
+        """           
         
         self.env = env
         self.action_dim = self.env.action_space.shape[0]
@@ -108,6 +132,12 @@ class SACAgent:
             )
     
     def learn(self, timesteps, print_every = 100):
+        """Helper method to train agent
+            Args:
+                total_steps (int): Total steps the agent has taken
+                timesteps (int): Total timesteps the agent has interacted for
+                print_every (int): Verbosity control iteration (int): Number of training iterations
+        """     
         idx = 0
         flag = False
         count_of_dones = 0
@@ -142,10 +172,22 @@ class SACAgent:
                     break
                         
     def predict(self, state):
+        """Returns agent's action based on a given state
+        Args:
+            state (array_like): Current environment state
+        Returns:
+            action (array_like): Agent's action
+        """        
         action = self.policy_net.get_action(state)
         return action
     
     def save(self, filename):
+        """
+        Saves trained model
+        Params
+        =====
+        filepath(str) : folder path to save the agent
+        """
         torch.save(self.value_net.state_dict(), filename + '_value_net')
         torch.save(self.value_optimizer.state_dict(), filename + '_value_optimizer')
 
@@ -156,6 +198,12 @@ class SACAgent:
         torch.save(self.policy_optimizer.state_dict(), filename + '_policy_optimizer')
 
     def load(self, filename):
+        """
+        Loads trained model
+        Params
+        =====
+        filepath(str) : folder path to save the agent
+        """
         self.value_net.load_state_dict(torch.load(filename + '_value_net'))
         self.value_optimizer.load_state_dict(torch.load(filename + '_value_optimizer'))
 

@@ -18,6 +18,13 @@ def tensor(x):
     return torch.from_numpy(x).float()
 
 class Actor(nn.Module):
+
+    """This is the actor network for the A2C Agent.
+    Original paper can be found at https://arxiv.org/abs/1802.09477
+    This implementation was adapted from https://github.com/higgsfield/RL-Adventure-2/blob/master/1.actor-critic.ipynb
+    
+    """
+    
     def __init__(self, state_dim, hidden_dim, n_actions):
         super().__init__()
         self.n_actions = n_actions
@@ -40,7 +47,20 @@ class Actor(nn.Module):
     
 ## Critic module
 class Critic(nn.Module):
+
+    """This is the critic network for the A2C Agent.
+    Original paper can be found at https://arxiv.org/abs/1802.09477
+    This implementation was adapted from https://github.com/higgsfield/RL-Adventure-2/blob/master/1.actor-critic.ipynb
+    """
     def __init__(self, state_dim, hidden_dim):
+
+        """Initializes the A2C Critic Network
+        Args:
+            state_dim (int): State space dimension
+            action_dim (int): Action space dimension
+            hidden_dim (int): Size of hidden layer
+    
+        """   
         super().__init__()
         self.model = nn.Sequential(
             nn.Linear(state_dim, hidden_dim),
@@ -105,6 +125,13 @@ class A2CLearner():
         self.critic_optim = torch.optim.Adam(critic.parameters(), lr=critic_lr)
     
     def learn(self, memory, steps, discount_rewards=True):
+        """
+        Trains the agent
+        Params
+        ======
+            timesteps (int): Number of timesteps the agent should interact with the environment
+            print_every (int): Verbosity control
+        """
         actions, rewards, states, next_states, dones = process_memory(memory, self.gamma, discount_rewards)
 
         td_target = rewards + self.gamma * self.critic(next_states) * (1-dones)
@@ -131,6 +158,14 @@ class A2CLearner():
         self.critic_optim.step()
         
     def predict(self, state):
+
+        """Returns the action for a given state
+        
+        Params
+        ======
+            state (array_like): current state
+            
+        """
         dists = self.actor(tensor(state))
         actions = dists.sample()
         actions_clipped = torch.nn.Softmax(dim = 0)(actions).detach().data.numpy()

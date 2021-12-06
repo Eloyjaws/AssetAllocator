@@ -11,7 +11,13 @@ import random
 import copy
 
 class NAFAgent():
-    """Interacts with and learns from the environment."""
+    """This is the agent class for the Normalized Advantage Function.
+
+    Original paper can be found at https://arxiv.org/abs/1906.04594
+
+    This implementation was adapted from https://github.com/BY571/Normalized-Advantage-Function-NAF-
+    
+    """
 
     def __init__(self,
                  env,
@@ -25,11 +31,12 @@ class NAFAgent():
                  UPDATE_EVERY = 2,
                  NUPDATES = 1,
                  seed = 0):
-        """Initialize an Agent object.
+        """Initialize an NAFAgent object.
         
         Params
         ======
-            Network (str): dqn network type
+            env (PortfolioGymEnv): instance of environment
+            device: device type (one of cuda or cpu)
             layer_size (int): size of the hidden layer
             BATCH_SIZE (int): size of the training batch
             BUFFER_SIZE (int): size of the replay memory
@@ -63,7 +70,6 @@ class NAFAgent():
         self.qnetwork_target = NAFNetwork(self.state_size, self.action_size,layer_size, seed, self.device).to(device)
 
         self.optimizer = optim.Adam(self.qnetwork_local.parameters(), lr=LR)
-        #print(self.qnetwork_local)
         
         # Replay memory
         self.memory = ReplayBuffer(BUFFER_SIZE, BATCH_SIZE, self.device, seed, self.GAMMA)
@@ -75,6 +81,17 @@ class NAFAgent():
         self.noise = OUNoise(self.action_size, seed)
     
     def step(self, state, action, reward, next_state, done):
+        """
+        Trains the agent
+
+        Params
+        =====
+        state (array_like): current state
+        action (array_like): current action
+        reward (array_like): reward for current state and action pair
+        next_state (array_like): next state
+        done(array_like): current end status
+        """
         # Save experience in replay memory
         self.memory.add(state, action, reward, next_state, done)
         
@@ -91,7 +108,7 @@ class NAFAgent():
                     Q_losses.append(loss)
 
     def predict(self, state):
-        """Calculating the action
+        """Returns the action for a given state
         
         Params
         ======
@@ -112,7 +129,9 @@ class NAFAgent():
 
 
     def _learn(self, experiences):
-        """Update value parameters using given batch of experience tuples.
+        """
+        Helper method to update value parameters using given batch of experience tuples.
+
         Params
         ======
             experiences (Tuple[torch.Tensor]): tuple of (s, a, r, s', done) tuples 
@@ -145,7 +164,16 @@ class NAFAgent():
         
         return loss.detach().cpu().numpy()  
     
-    def learn(self, timesteps, print_every = 10):
+    def learn(self, timesteps, print_every = 1):
+        """
+        Trains the agent
+
+        Params
+        ======
+            timesteps (int): Number of timesteps the agent should interact with the environment
+            print_every (int): Verbosity control
+        """
+
         epochs = timesteps//self.env.episode_length + 1
         
         timestep = 0
@@ -185,8 +213,10 @@ class NAFAgent():
         #print(f'Final score is {self.score} after {timesteps} timesteps.')
 
     def soft_update(self, local_model, target_model):
-        """Soft update model parameters.
+        """
+        Soft update model parameters.
         θ_target = τ*θ_local + (1 - τ)*θ_target
+
         Params
         ======
             local_model (PyTorch model): weights will be copied from
@@ -196,12 +226,26 @@ class NAFAgent():
         for target_param, local_param in zip(target_model.parameters(), local_model.parameters()):
             target_param.data.copy_(self.TAU*local_param.data + (1.0-self.TAU)*target_param.data)
 
-    def save(self, filename):
-        torch.save(self.qnetwork_target.state_dict(),filename + "_target")
-        torch.save(self.qnetwork_local.state_dict(), filename + "_local")
-        torch.save(self.optimizer.state_dict(), filename + "_optimizer")
+    def save(self, filepath):
+        """
+        Saves trained model
 
-    def load(self, filename):
-        self.qnetwork_local.load_state_dict(torch.load(filename + '_local'))
-        self.qnetwork_target.load_state_dict(torch.load(filename + '_target')) 
-        self.optimizer.load_state_dict(torch.load(filename + '_optimizer'))
+        Params
+        =====
+        filepath(str) : folder path to save the agent
+        """
+        torch.save(self.qnetwork_target.state_dict(),filepath + "_target")
+        torch.save(self.qnetwork_local.state_dict(), filepath + "_local")
+        torch.save(self.optimizer.state_dict(), filepath + "_optimizer")
+
+    def load(self, filepath):
+        """
+        Load trained model
+
+        Params
+        =====
+        filepath(str) : folder path to save the agent
+        """
+        self.qnetwork_local.load_state_dict(torch.load(filepath + '_local'))
+        self.qnetwork_target.load_state_dict(torch.load(filepath + '_target')) 
+        self.optimizer.load_state_dict(torch.load(filepath + '_optimizer'))

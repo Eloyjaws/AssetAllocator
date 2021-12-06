@@ -29,7 +29,17 @@ def softmax(x, axis=0):
 
 
 class REINFORCEAgent:
+    """
+        Helper class to manage and train REINFORCE Agent
+    """
     def __init__(self, env, device=default_device):
+
+        """Initializes the REINFORCE Agent
+
+        Args:
+            env (gym object): Gym environment for the agent to interact with
+            device (str, optional): One of cuda or cpu. Defaults to 'cuda'.
+        """
         torch.manual_seed(env.seed)
         np.random.seed(env.seed)
 
@@ -41,6 +51,12 @@ class REINFORCEAgent:
             hidden_size, env.observation_space.shape[0], env.action_space)
 
     def train(self, timesteps, print_every):
+        """Helper method to train the agent
+
+        Args:
+            timesteps (int): Total timesteps the agent has interacted for
+            print_every (int): Verbosity control
+        """       
         reward_history = []  # tracks the reward per episode
         best_score = -np.inf
 
@@ -86,10 +102,26 @@ class REINFORCEAgent:
         self.env.close()
 
     def learn(self, timesteps, print_every=100):
+        """
+        Trains the agent
+
+        Params
+        ======
+            timesteps (int): Number of timesteps the agent should interact with the environment
+            print_every (int): Verbosity control
+        """
         self.agent.model.train()
         self.train(timesteps, print_every)
 
     def predict(self, state):
+        """Returns agent's action based on a given state
+
+        Args:
+            state (array_like): Current environment state
+
+        Returns:
+            action (array_like): Agent's action
+        """        
         self.agent.model.eval()
         state = torch.from_numpy(state).float()
         action, log_prob, entropy = self.agent.select_action(state)
@@ -98,7 +130,21 @@ class REINFORCEAgent:
         # return action
 
     def save(self, file_name):
+        """
+        Saves trained model
+
+        Params
+        =====
+        filepath(str) : folder path to save the agent
+        """
         torch.save(self.agent.model.state_dict(), file_name)
 
     def load(self, file_name):
+        """
+        Loads trained model
+
+        Params
+        =====
+        filepath(str) : folder path to save the agent
+        """
         self.model.load_state_dict(torch.load(file_name))

@@ -15,11 +15,21 @@ class ReplayMemory:
     """
 
     def __init__(self, capacity):
+        """Initialize a ReplayBuffer object.
+
+        Args:
+            capacity (int): maximum size of buffer
+        """
         self.capacity = capacity
         self.buffer = [] # create a list of lists, such that each experience added to memory is a list of 5-items of the form (state, action, next_state, reward, done)
         self.idx = 0
 
     def store(self, transition):
+        """Add a new experience to memory.
+
+        Args:
+            transition (array_like): current state, current action, reward, next state, and current end status tuple  
+        """
         if len(self.buffer) < self.capacity:
             self.buffer.append(transition)
         else:
@@ -28,7 +38,13 @@ class ReplayMemory:
 
 
     def sample(self, batchsize, device):
+        """
+        Randomly sample a batch of experiences from memory.
 
+        Args:
+            batch_size (int): Batch size to sample
+            device: One of cuda or cpus
+        """
         transitions = np.array(random.sample(self.buffer, batchsize), dtype=object)
         states = torch.tensor(np.array(transitions[:, 0].tolist()), dtype=torch.float32).to(device)
         actions = torch.tensor(np.array(transitions[:, 1].tolist()), dtype=torch.float32).to(device)
@@ -40,4 +56,7 @@ class ReplayMemory:
 
 
     def __len__(self):
+        """
+        Return the current size of internal memory.
+        """
         return len(self.buffer)

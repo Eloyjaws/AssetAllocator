@@ -8,8 +8,46 @@ from Replay_Memory import ReplayMemory
 from OU_Noise import OrnsteinUhlenbeckNoise
 
 class DDPGAgent:
+    """This is the agent class for the DDPG Agent.
 
-    def __init__(self, state_dim, action_dim, max_action, device, memory_capacity=10000, discount=0.99, tau=0.005, sigma=0.2, theta=0.15, actor_lr=1e-4, critic_lr=1e-3, train_mode=True):
+    Original paper can be found at https://arxiv.org/abs/1509.02971
+
+    This implementation was adapted from https://github.com/saashanair/rl-series/tree/master/ddpg
+    
+    """
+
+    def __init__(
+        self, 
+        state_dim, 
+        action_dim,
+        max_action, 
+        device, 
+        memory_capacity=10000, 
+        discount=0.99, 
+        tau=0.005, 
+        sigma=0.2, 
+        theta=0.15, 
+        actor_lr=1e-4, 
+        critic_lr=1e-3, 
+        train_mode=True):
+
+        """Initializes the DDPG Agent
+
+        Args:
+            state_dim (int): State space dimension
+            action_dim (int): Action space dimension
+            max_action (int): the max value of the range in the action space (assumes a symmetric range in the action space)
+            device (str, optional): One of cuda or cpu. Defaults to 'cuda'.
+            memory_capacity ([type], optional): Size of replay buffer. Defaults to 10_000.
+            discount (float, optional): Reward discount factor. Defaults to 0.99.
+            tau (float, optional): Polyak averaging soft updates factor (i.e., soft updating of the target networks). Defaults to 0.005.
+            sigma (float, optional): Amount of noise to be applied to the OU process. Defaults to 0.2.
+            theta (float, optional): Amount of frictional force to be applied in OU noise generation. Defaults to 0.15.
+            actor_lr ([type], optional): Actor's learning rate. Defaults to 1e-4.
+            critic_lr ([type], optional): Critic's learning rate. Defaults to 1e-3.
+            train_mode (bool, optional): Training or eval mode flag. Defaults to True.
+        """      
+
         self.train_mode = train_mode # whether the agent is in training or testing mode
 
         self.state_dim = state_dim # dimension of the state space
@@ -61,12 +99,10 @@ class DDPGAgent:
         During testing, no noise is added to the action decision.
         Parameters
         ---
-        state: vector or tensor
-            The current state of the environment as observed by the agent
+        state (array_like): The current state of the environment as observed by the agent
         
-        Returns
-        ---
-        A numpy array representing the noisy action to be performed by the agent in the current state
+        Returns:
+            action: A numpy array representing the noisy action to be performed by the agent in the current state
         """
 
         if not torch.is_tensor(state):
@@ -94,13 +130,8 @@ class DDPGAgent:
     def learn(self, batchsize):
         """
         Function to perform the updates on the 4 neural networks that run the DDPG algorithm.
-        Parameters
-        ---
-        batchsize: int
-            Number of experiences to be randomly sampled from the memory for the agent to learn from
-        Returns
-        ---
-        none
+        Args: 
+            batchsize (int): Number of experiences to be randomly sampled from the memory for the agent to learn from
         """
 
         if len(self.memory) < batchsize:
@@ -142,31 +173,41 @@ class DDPGAgent:
 
     def soft_update_net(self, source_net_params, target_net_params):
         """
-        Function to perform Polyak averaging to update the parameters of the provided network
-        Parameters
-        ---
-        source_net_params: list
-            trainable parameters of the source, ie. current version of the network
-        target_net_params: list
-            trainable parameters of the corresponding target network
-        Returns
-        ---
-        none
+        Perform Polyak averaging to update the parameters of the provided network
+        Args:
+            source_net_params (list): trainable parameters of the source, ie. current version of the network
+            target_net_params (list): trainable parameters of the corresponding target network
         """
 
         for source_param, target_param in zip(source_net_params, target_net_params):
             target_param.data.copy_(self.tau * source_param.data + (1 - self.tau) * target_param.data)
 
     def soft_update_targets(self):
-        """ Function that calls Polyak averaging on all three target networks """
+        """ Function that calls Polyak averaging on both target networks """
 
         self.soft_update_net(self.actor.parameters(), self.target_actor.parameters())
         self.soft_update_net(self.critic.parameters(), self.target_critic.parameters())
 
     def save(self, path, model_name):
+        """
+            Saves trained model
+
+            Params
+            =====
+            path(str) : folder path to save the agent's weights
+            name(str) : name to save the agent's weights 
+        """
         self.actor.save_model('{}/{}_actor'.format(path, model_name))
         self.critic.save_model('{}/{}_critic'.format(path, model_name))
 
     def load(self, path, model_name):
+        """
+            Loads trained model
+
+            Params
+            =====
+            path(str) : folder path to the agent's weights
+            name(str) : name of the saved agent's weights 
+        """
         self.actor.load_model('{}/{}_actor'.format(path, model_name))
         self.critic.load_model('{}/{}_critic'.format(path, model_name))

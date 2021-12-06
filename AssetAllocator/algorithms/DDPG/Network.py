@@ -46,10 +46,23 @@ def apply_uniform_init(layer, bound=None):
 
 class Actor(nn.Module):
     """
-    Class that defines the neural network architecture for the Actor
+    This is the actor network for the DDPG Agent.
+
+    Original paper can be found at https://arxiv.org/abs/1509.02971
+
+    This implementation was adapted from https://github.com/saashanair/rl-series/tree/master/ddpg
+
     """
 
     def __init__(self, state_dim, action_dim, max_action, lr=1e-4):
+        """Initialized the DDPG Actor Network
+
+        Args:
+            state_dim (int): State space dimension
+            action_dim (int): Action space dimension
+            lr (float, optional): Learning rate. Defaults to 0.0001.
+            max_action (int, optional): Action scaling value. Defaults to 1.
+        """    
         super(Actor, self).__init__()
 
         self.max_action = max_action
@@ -57,12 +70,9 @@ class Actor(nn.Module):
         self.dense1 = nn.Linear(state_dim, 400)
         apply_uniform_init(self.dense1)
 
-        #self.bn1 = nn.BatchNorm1d(400)
-
         self.dense2 = nn.Linear(400, 300)
         apply_uniform_init(self.dense2)
 
-        #self.bn2 = nn.BatchNorm1d(300)
 
         self.dense3 = nn.Linear(300, action_dim)
         apply_uniform_init(self.dense3, bound=3*10e-3)
@@ -70,6 +80,14 @@ class Actor(nn.Module):
         self.optimizer = optim.Adam(self.parameters(), lr=lr)
 
     def forward(self, state):
+        """Forward pass
+
+        Args:
+            state (array_like): Current environment state
+
+        Returns:
+            action: Agent's Action Values
+        """        
         x = F.relu(self.dense1(state))
         x = F.relu(self.dense2(x))
         # squashes the action output to a range of -1 to +1
@@ -80,18 +98,40 @@ class Actor(nn.Module):
         return x
 
     def save_model(self, filename):
+        """Save model weights
+
+        Args:
+            filename (string): File Path to save model
+        """    
         torch.save(self.state_dict(), filename)
 
     def load_model(self, filename):
+        """Load model weights
+
+        Args:
+            filename (string): File Path to model weights
+        """    
         self.load_state_dict(torch.load(filename))
 
 
 class Critic(nn.Module):
     """
-    Class that defines the neural network architecture for the Critic
+    This is the critic network for the DDPG Agent.
+
+    Original paper can be found at https://arxiv.org/abs/1509.02971
+
+    This implementation was adapted from https://github.com/saashanair/rl-series/tree/master/ddpg
+
     """
 
     def __init__(self, state_dim, action_dim, lr=1e-3):
+        """Initializes the DDPG Critic Network
+
+        Args:
+            state_dim (int): State space dimension
+            action_dim (int): Action space dimension
+            lr (float, optional): Learning rate. Defaults to 0.001.
+        """   
         super(Critic, self).__init__()
 
         # the input to the network is a concatenation of the state and the action performed by the agent in that state
@@ -112,7 +152,15 @@ class Critic(nn.Module):
             self.parameters(), lr=lr, weight_decay=1e-2)
 
     def forward(self, state, action):
+        """Forward pass
 
+        Args:
+            state (array_like): Current environment state
+            action (array_like): Current agent's action
+
+        Returns:
+            out: State-Action Values
+        """
         #x = torch.cat([state, action], dim=1)
 
         x = F.relu(self.dense1(state))
@@ -125,7 +173,17 @@ class Critic(nn.Module):
         return x
 
     def save_model(self, filename):
+        """Save model weights
+
+        Args:
+            filename (string): File Path to save model
+        """    
         torch.save(self.state_dict(), filename)
 
     def load_model(self, filename):
+        """Load model weights
+
+        Args:
+            filename (string): File Path to model weights
+        """    
         self.load_state_dict(torch.load(filename))

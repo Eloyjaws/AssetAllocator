@@ -1,11 +1,3 @@
-"""
-	This file is used only to evaluate our trained policy/actor after
-	training in main.py with ppo.py. This file demonstrates
-	that our trained policy exists independently of our learning algorithm,
-	which resides in ppo.py. Thus, we can test our trained policy without 
-	relying on ppo.py.
-"""
-
 def _log_summary(ep_len, ep_ret, ep_num):
 		"""
 			Print to stdout what we've logged so far in the most recent episode.
@@ -40,13 +32,7 @@ def rollout(policy, env, render):
 		
 		Return:
 			A generator object rollout, or iterable, which will return the latest
-			episodic length and return on each iteration of the generator.
-
-		Note:
-			If you're unfamiliar with Python generators, check this out:
-				https://wiki.python.org/moin/Generators
-			If you're unfamiliar with Python "yield", check this out:
-				https://stackoverflow.com/questions/231767/what-does-the-yield-keyword-do
+			episodic length and return on each iteration of the generator.	
 	"""
 	# Rollout until user kills process
 	while True:

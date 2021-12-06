@@ -4,7 +4,7 @@ from gym.utils import seeding
 
 import numpy as np
 import pandas as pd
-from .utils import softmax, log_to_simple, DifferentialSharpeRatio
+from .utils import softmax, log_to_simple
 
 import sys
 sys.path.append('../')
@@ -12,6 +12,9 @@ sys.path.append('../')
 import yfinance as yf
 
 class PortfolioManagementGym(gym.Env):
+    """
+    Portfolio Management Gym
+    """
     def __init__(self,
                  data,
                  episode_length = None,
@@ -27,32 +30,35 @@ class PortfolioManagementGym(gym.Env):
                  end_date = '2022-01-01',
                  seed = 0):
         """
-        data : pandas dataframe with date index and stock columnns with price data 
-               or list of stock tickers
-               
-        episode_length : how long the agent should interact with the environment
+        Initializes the gym environment
 
-        returns: If True, use log_returns as reward. Else, use sharpe ratio
+        Args:
+            data : pandas dataframe with date index and stock columnns with price data 
+                or list of stock tickers
+                
+            episode_length : how long the agent should interact with the environment
 
-        trading_cost_ratio : percentage of stock price that accounts for trading costs
+            returns: If True, use log_returns as reward. Else, use sharpe ratio
 
-        lookback_period : a fixed sized window, used to know how much data to return to the agent as observation
+            trading_cost_ratio : percentage of stock price that accounts for trading costs
 
-        initial_investment : how much the agent wants to invest
+            lookback_period : a fixed sized window, used to know how much data to return to the agent as observation
 
-        retain_cash : bool value to tell the value whether to keep a cash value.
+            initial_investment : how much the agent wants to invest
 
-        random_start_range : random start position for training, should be set to 0 for test
+            retain_cash : bool value to tell the value whether to keep a cash value.
 
-        dsr_constant : smoothing parameter for differential sharpe ratio
+            random_start_range : random start position for training, should be set to 0 for test
 
-        add_softmax : bool value to tell the agent whether to soft-normalize the input action
+            dsr_constant : smoothing parameter for differential sharpe ratio
 
-        start_date : start date for yahoo finance download
+            add_softmax : bool value to tell the agent whether to soft-normalize the input action
 
-        end_date : end date for yahoo finance download
+            start_date : start date for yahoo finance download
 
-        seed : seed value for environment reproducibility
+            end_date : end date for yahoo finance download
+
+            seed : seed value for environment reproducibility
                   
         """
 
@@ -89,6 +95,12 @@ class PortfolioManagementGym(gym.Env):
         self.reset()
 
     def reset(self):
+        """
+        Resets the environment to the start state
+
+        Returns:
+            Initial observation (array_like)
+        """        
         self._initialize_env()
         obs = self._get_new_state()
         width = self.observation_space.shape[0] - len(obs)
@@ -98,7 +110,7 @@ class PortfolioManagementGym(gym.Env):
     def step(self, action):
         """
         Takes in an action of size action_dim
-        Returns the observation, reward, episode_status
+        Returns the observation, reward, episode_statuss
         """
 
         if not self._get_done_status():
@@ -116,7 +128,10 @@ class PortfolioManagementGym(gym.Env):
         return new_state, reward, episode_over, info
 
     def render(self):
-          return [log_to_simple(self.log_returns[-1]), 
+        """
+        Returns an array of simple returns, differential sharpe ratio, and available amount
+        """        
+        return [log_to_simple(self.log_returns[-1]), 
                     self.sharpe_ratios[-1], self.AVAILABLE_AMT]
 
 
@@ -126,6 +141,9 @@ class PortfolioManagementGym(gym.Env):
     
 
     def _seed(self, seed = None):
+        """
+        Helper method to set seed
+        """        
         self.np_random, self.seed = seeding.np_random(seed)
 
 
@@ -170,11 +188,6 @@ class PortfolioManagementGym(gym.Env):
         self.current_holding = [0] * self.n
         self.AVAILABLE_AMT = self.initial_investment
         self.CASH = self.initial_investment
-        
-        self.dsr = DifferentialSharpeRatio(
-                                        eta = self.dsr_constant, 
-                                        last_A = 0, 
-                                        last_B = 0)
 
         self.num_actions_taken = 0
         self.curr_reward = 0
@@ -185,7 +198,7 @@ class PortfolioManagementGym(gym.Env):
         self.prices = self._load_data()
         self.date_map, self.observations = self._preprocess_data(self.prices)
         
-        self.start_day = np.random.choice(range(self.lookback_period, 
+        self.start_day = self.np_random.choice(range(self.lookback_period, 
                             self.lookback_period + self.random_start_range + 1))
         self.end_day = min(self.start_day + self.episode_length, 
                             len(self.prices) - 1)
@@ -221,10 +234,15 @@ class PortfolioManagementGym(gym.Env):
 
     
     def _compute_buyable_shares(self, budgets, prices):
+        """Helper method to compute buyable shares
+        """        
         shares = [budget/price for budget, price in zip(budgets, prices)]
         return shares
     
     def _compute_trading_costs(self, shares_now, shares_prev, prices):
+        """
+        Helper method to compute trading costs
+        """        
         trading_costs = []
         
         for now, prev, price in zip(shares_now, shares_prev, prices):
@@ -238,6 +256,9 @@ class PortfolioManagementGym(gym.Env):
         return trading_costs
 
     def _take_action(self, actions):
+        """
+        Helper method to compute effects of agent's action on environment
+        """
         # For stable baseline model implementations
         if isinstance(actions, tuple):
             actions = actions[0]
@@ -309,26 +330,15 @@ class PortfolioManagementGym(gym.Env):
         self.log_returns += [np.log(simple_returns + 1)]
         
     def _get_sharpe_ratio(self):
+        """
+        Helper method to calculate differential sharpe ratio
+        """
         if self.num_actions_taken < self.lookback_period:
             S = 0
         else:
             window = [log_to_simple(i) for i in self.log_returns]
-            #print(len(window))
             S = np.nanmean(window)/np.nanstd(window) * np.sqrt(252) / len(window)
         self.sharpe_ratios += [S]
-
-    #def _get_sharpe_ratio(self):
-     #   """
-        #https://github.com/AchillesJJ/DSR
-        #https://quant.stackexchange.com/questions/57568/approximating-sharpe-and-
-        #    sortino-ratios-from-exponential-moving averages
-        #https://teddykoker.com/2019/06/trading-with-reinforcement-learning-in-python-part-ii-application/
-      #  """
-       # if self.num_actions_taken < self.lookback_period:
-        #    S = 0
-       # else:
-       #     S = self.dsr.get_reward(self.log_returns[-1])
-       # self.sharpe_ratios += [S]
 
     def _get_reward(self):
         """
@@ -344,6 +354,7 @@ class PortfolioManagementGym(gym.Env):
         return curr_reward
 
     def _get_done_status(self):
+        """
+        Helper method to get end state status
+        """
         return self.current_day >= self.end_day
-
-                 
