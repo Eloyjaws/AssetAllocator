@@ -1,7 +1,7 @@
 <a href="https://link_to_final_report">
 <p align="center">
-<img height=100 src="https://cdn-icons.flaticon.com/png/512/2207/premium/2207346.png?token=exp=1638808762~hmac=28ed13e1e099d2a551479ec454afeaf3"/>
-<img height=100 src="https://cdn-icons.flaticon.com/png/512/3345/premium/3345142.png?token=exp=1638808763~hmac=3fb925ae989e09f40b6fbe858aea8f02"/>
+<img height=100 src="images/candlestick.png"/>
+<img height=100 src="images/portfolio.png"/>
 </p></a>
 <p align="center">
   <strong>Automating Portfolio Allocation with Reinforcement Learning</strong>
