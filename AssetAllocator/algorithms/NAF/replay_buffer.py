@@ -29,7 +29,7 @@ class ReplayBuffer:
         self.seed = random.seed(seed)
         self.gamma = gamma
 
-        self.n_step_buffer = desque(maxlen=1)
+        self.n_step_buffer = deque(maxlen=1)
     
     def add(self, state, action, reward, next_state, done):
         """Add a new experience to memory.
