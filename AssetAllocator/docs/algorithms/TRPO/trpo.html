@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>AssetAllocator.algorithms.TRPO.trpo API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>AssetAllocator.algorithms.TRPO.trpo</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import numpy as np
+
+import torch
+from torch.autograd import Variable
+from .utils import *
+
+
+def getSurrogateloss(model,states,actions,advantages,logProbabilityOld):
+    log_prob = model.getLogProbabilityDensity(states,Variable(actions))
+    action_loss = -advantages.squeeze() * torch.exp(log_prob - Variable(logProbabilityOld))
+    return action_loss.mean()
+
+def FisherVectorProduct(v , model, states, actions,logProbabilityOld,damping):
+    kl = model.meanKlDivergence(states, actions,logProbabilityOld)
+
+    grads = torch.autograd.grad(kl, model.parameters()
+                    ,retain_graph=True, create_graph=True)
+    flat_grad_kl = torch.cat([grad.view(-1) for grad in grads])
+
+    kl_v = (flat_grad_kl * v).sum()
+    grads = torch.autograd.grad(kl_v, model.parameters())
+    flat_grad_grad_kl = torch.cat([grad.contiguous().view(-1)
+                                    for grad in grads]).data
+
+    return flat_grad_grad_kl + v * damping
+
+def trpo_step(model, states, actions, advantages, max_kl, damping):
+
+    fixed_log_prob = model.getLogProbabilityDensity(Variable(states),actions).detach()
+    get_loss = lambda x: getSurrogateloss(x,
+                                    states,
+                                    actions,
+                                    advantages,
+                                    fixed_log_prob)
+    loss = get_loss(model)
+
+    grads = torch.autograd.grad(loss, model.parameters())
+    loss_grad = torch.cat([grad.view(-1) for grad in grads])
+
+    Fvp = lambda v: FisherVectorProduct(v,
+                                        model,
+                                        states,
+                                        actions,
+                                        fixed_log_prob,
+                                        damping)
+
+    stepdir = conjugate_gradients(Fvp, -loss_grad, 10)
+
+
+    shs = 0.5 * (stepdir * Fvp(stepdir)).sum(0, keepdim=True)
+    lm = torch.sqrt(shs / max_kl)
+    fullstep = stepdir / lm[0]
+    neggdotstepdir = (-loss_grad * stepdir).sum(0, keepdim=True)
+    prev_params = get_flat_params_from(model)
+    success, new_params = linesearch(model, get_loss, prev_params, fullstep,
+                                     neggdotstepdir / lm[0])
+    set_flat_params_to(model, new_params)
+
+    return loss
+
+def conjugate_gradients(Avp, b, nsteps, residual_tol=1e-10):
+    x = torch.zeros(b.size())
+    r = b.clone()
+    p = b.clone()
+    rdotr = torch.dot(r, r)
+    for i in range(nsteps):
+        _Avp = Avp(p)
+        alpha = rdotr / torch.dot(p, _Avp)
+        x += alpha * p
+        r -= alpha * _Avp
+        new_rdotr = torch.dot(r, r)
+        betta = new_rdotr / rdotr
+        p = r + betta * p
+        rdotr = new_rdotr
+        t= i
+        if rdotr &lt; residual_tol:
+            break
+    return x
+
+def linesearch(model,
+               f,
+               x,
+               fullstep,
+               expected_improve_rate,
+               max_backtracks=10,
+               accept_ratio=.1):
+    fval = f(model).data
+    for (_n_backtracks, stepfrac) in enumerate(.5**np.arange(max_backtracks)):
+        xnew = x + stepfrac * fullstep
+        set_flat_params_to(model, xnew)
+        newfval = f(model).data
+        actual_improve = fval - newfval
+        expected_improve = expected_improve_rate * stepfrac
+        ratio = actual_improve / expected_improve
+
+        if ratio.item() &gt; accept_ratio and actual_improve.item() &gt; 0:
+            return True, xnew
+    return False, x</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="AssetAllocator.algorithms.TRPO.trpo.FisherVectorProduct"><code class="name flex">
+<span>def <span class="ident">FisherVectorProduct</span></span>(<span>v, model, states, actions, logProbabilityOld, damping)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def FisherVectorProduct(v , model, states, actions,logProbabilityOld,damping):
+    kl = model.meanKlDivergence(states, actions,logProbabilityOld)
+
+    grads = torch.autograd.grad(kl, model.parameters()
+                    ,retain_graph=True, create_graph=True)
+    flat_grad_kl = torch.cat([grad.view(-1) for grad in grads])
+
+    kl_v = (flat_grad_kl * v).sum()
+    grads = torch.autograd.grad(kl_v, model.parameters())
+    flat_grad_grad_kl = torch.cat([grad.contiguous().view(-1)
+                                    for grad in grads]).data
+
+    return flat_grad_grad_kl + v * damping</code></pre>
+</details>
+</dd>
+<dt id="AssetAllocator.algorithms.TRPO.trpo.conjugate_gradients"><code class="name flex">
+<span>def <span class="ident">conjugate_gradients</span></span>(<span>Avp, b, nsteps, residual_tol=1e-10)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def conjugate_gradients(Avp, b, nsteps, residual_tol=1e-10):
+    x = torch.zeros(b.size())
+    r = b.clone()
+    p = b.clone()
+    rdotr = torch.dot(r, r)
+    for i in range(nsteps):
+        _Avp = Avp(p)
+        alpha = rdotr / torch.dot(p, _Avp)
+        x += alpha * p
+        r -= alpha * _Avp
+        new_rdotr = torch.dot(r, r)
+        betta = new_rdotr / rdotr
+        p = r + betta * p
+        rdotr = new_rdotr
+        t= i
+        if rdotr &lt; residual_tol:
+            break
+    return x</code></pre>
+</details>
+</dd>
+<dt id="AssetAllocator.algorithms.TRPO.trpo.getSurrogateloss"><code class="name flex">
+<span>def <span class="ident">getSurrogateloss</span></span>(<span>model, states, actions, advantages, logProbabilityOld)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getSurrogateloss(model,states,actions,advantages,logProbabilityOld):
+    log_prob = model.getLogProbabilityDensity(states,Variable(actions))
+    action_loss = -advantages.squeeze() * torch.exp(log_prob - Variable(logProbabilityOld))
+    return action_loss.mean()</code></pre>
+</details>
+</dd>
+<dt id="AssetAllocator.algorithms.TRPO.trpo.linesearch"><code class="name flex">
+<span>def <span class="ident">linesearch</span></span>(<span>model, f, x, fullstep, expected_improve_rate, max_backtracks=10, accept_ratio=0.1)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def linesearch(model,
+               f,
+               x,
+               fullstep,
+               expected_improve_rate,
+               max_backtracks=10,
+               accept_ratio=.1):
+    fval = f(model).data
+    for (_n_backtracks, stepfrac) in enumerate(.5**np.arange(max_backtracks)):
+        xnew = x + stepfrac * fullstep
+        set_flat_params_to(model, xnew)
+        newfval = f(model).data
+        actual_improve = fval - newfval
+        expected_improve = expected_improve_rate * stepfrac
+        ratio = actual_improve / expected_improve
+
+        if ratio.item() &gt; accept_ratio and actual_improve.item() &gt; 0:
+            return True, xnew
+    return False, x</code></pre>
+</details>
+</dd>
+<dt id="AssetAllocator.algorithms.TRPO.trpo.trpo_step"><code class="name flex">
+<span>def <span class="ident">trpo_step</span></span>(<span>model, states, actions, advantages, max_kl, damping)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def trpo_step(model, states, actions, advantages, max_kl, damping):
+
+    fixed_log_prob = model.getLogProbabilityDensity(Variable(states),actions).detach()
+    get_loss = lambda x: getSurrogateloss(x,
+                                    states,
+                                    actions,
+                                    advantages,
+                                    fixed_log_prob)
+    loss = get_loss(model)
+
+    grads = torch.autograd.grad(loss, model.parameters())
+    loss_grad = torch.cat([grad.view(-1) for grad in grads])
+
+    Fvp = lambda v: FisherVectorProduct(v,
+                                        model,
+                                        states,
+                                        actions,
+                                        fixed_log_prob,
+                                        damping)
+
+    stepdir = conjugate_gradients(Fvp, -loss_grad, 10)
+
+
+    shs = 0.5 * (stepdir * Fvp(stepdir)).sum(0, keepdim=True)
+    lm = torch.sqrt(shs / max_kl)
+    fullstep = stepdir / lm[0]
+    neggdotstepdir = (-loss_grad * stepdir).sum(0, keepdim=True)
+    prev_params = get_flat_params_from(model)
+    success, new_params = linesearch(model, get_loss, prev_params, fullstep,
+                                     neggdotstepdir / lm[0])
+    set_flat_params_to(model, new_params)
+
+    return loss</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="AssetAllocator.algorithms.TRPO" href="index.html">AssetAllocator.algorithms.TRPO</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="AssetAllocator.algorithms.TRPO.trpo.FisherVectorProduct" href="#AssetAllocator.algorithms.TRPO.trpo.FisherVectorProduct">FisherVectorProduct</a></code></li>
+<li><code><a title="AssetAllocator.algorithms.TRPO.trpo.conjugate_gradients" href="#AssetAllocator.algorithms.TRPO.trpo.conjugate_gradients">conjugate_gradients</a></code></li>
+<li><code><a title="AssetAllocator.algorithms.TRPO.trpo.getSurrogateloss" href="#AssetAllocator.algorithms.TRPO.trpo.getSurrogateloss">getSurrogateloss</a></code></li>
+<li><code><a title="AssetAllocator.algorithms.TRPO.trpo.linesearch" href="#AssetAllocator.algorithms.TRPO.trpo.linesearch">linesearch</a></code></li>
+<li><code><a title="AssetAllocator.algorithms.TRPO.trpo.trpo_step" href="#AssetAllocator.algorithms.TRPO.trpo.trpo_step">trpo_step</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

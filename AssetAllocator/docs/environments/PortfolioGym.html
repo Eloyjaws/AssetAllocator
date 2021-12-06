@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>AssetAllocator.environments.PortfolioGym API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>AssetAllocator.environments.PortfolioGym</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import gym
+from gym import spaces
+from gym.utils import seeding
+
+import numpy as np
+import pandas as pd
+from .utils import softmax, log_to_simple
+
+import sys
+sys.path.append(&#39;../&#39;)
+
+import yfinance as yf
+
+class PortfolioManagementGym(gym.Env):
+    &#34;&#34;&#34;
+    Portfolio Management Gym
+    &#34;&#34;&#34;
+    def __init__(self,
+                 data,
+                 episode_length = None,
+                 returns = True,
+                 trading_cost_ratio = 0.001,
+                 lookback_period = 64,
+                 initial_investment = 1_000_000,
+                 retain_cash = True,
+                 random_start_range = 20,
+                 dsr_constant = 1e-4,
+                 add_softmax = False,
+                 start_date = &#39;2009-01-01&#39;,
+                 end_date = &#39;2022-01-01&#39;,
+                 seed = 0):
+        &#34;&#34;&#34;
+        Initializes the gym environment
+
+        Args:
+            data : pandas dataframe with date index and stock columnns with price data 
+                or list of stock tickers
+                
+            episode_length : how long the agent should interact with the environment
+
+            returns: If True, use log_returns as reward. Else, use sharpe ratio
+
+            trading_cost_ratio : percentage of stock price that accounts for trading costs
+
+            lookback_period : a fixed sized window, used to know how much data to return to the agent as observation
+
+            initial_investment : how much the agent wants to invest
+
+            retain_cash : bool value to tell the value whether to keep a cash value.
+
+            random_start_range : random start position for training, should be set to 0 for test
+
+            dsr_constant : smoothing parameter for differential sharpe ratio
+
+            add_softmax : bool value to tell the agent whether to soft-normalize the input action
+
+            start_date : start date for yahoo finance download
+
+            end_date : end date for yahoo finance download
+
+            seed : seed value for environment reproducibility
+                  
+        &#34;&#34;&#34;
+
+        self.data = data
+        self.episode_length = episode_length
+        self.returns = returns
+        self.trading_cost_ratio = trading_cost_ratio
+        self.lookback_period = lookback_period
+        self.initial_investment = initial_investment
+        self.retain_cash = retain_cash
+        self.random_start_range = random_start_range
+        self.dsr_constant = dsr_constant
+        self.add_softmax = add_softmax
+        self.start_date = start_date
+        self.end_date = end_date
+
+        if isinstance(data, pd.DataFrame):
+            self.stocks_names = list(self.data.columns)
+            _, self.n = self.data.shape
+        else:
+            self.stocks = data
+            self.n = len(self.data)
+        
+        action_dim = self.n + self.retain_cash
+        state_dim = self.lookback_period * self.n
+        
+        self.start_date = start_date
+        self.end_date = end_date
+        
+        self.observation_space = spaces.Box(np.finfo(&#39;d&#39;).min,np.finfo(&#39;d&#39;).max,shape=(state_dim,))
+        self.action_space = spaces.Box(0, 1, shape=(action_dim,))
+        
+        self._seed(seed)
+        self.reset()
+
+    def reset(self):
+        &#34;&#34;&#34;
+        Resets the environment to the start state
+
+        Returns:
+            Initial observation (array_like)
+        &#34;&#34;&#34;        
+        self._initialize_env()
+        obs = self._get_new_state()
+        width = self.observation_space.shape[0] - len(obs)
+        obs = np.array(np.pad(obs, (width,0), constant_values = 0), dtype = &#39;float32&#39;)
+        return obs
+
+    def step(self, action):
+        &#34;&#34;&#34;
+        Takes in an action of size action_dim
+        Returns the observation, reward, episode_statuss
+        &#34;&#34;&#34;
+
+        if not self._get_done_status():
+            self.num_actions_taken += 1
+            self._take_action(action)
+        
+        new_state = np.array(self._get_new_state(), dtype = &#39;float32&#39;)
+        assert self.observation_space.contains(new_state), \
+            f&#39;observation does not belong to space&#39;
+
+        reward = self._get_reward()
+        episode_over = self._get_done_status()
+        info = {}
+
+        return new_state, reward, episode_over, info
+
+    def render(self):
+        &#34;&#34;&#34;
+        Returns an array of simple returns, differential sharpe ratio, and available amount
+        &#34;&#34;&#34;        
+        return [log_to_simple(self.log_returns[-1]), 
+                    self.sharpe_ratios[-1], self.AVAILABLE_AMT]
+
+
+   #################################################################################################
+    #################################### HELPER FUNCTIONS ###########################################
+    #################################################################################################
+    
+
+    def _seed(self, seed = None):
+        &#34;&#34;&#34;
+        Helper method to set seed
+        &#34;&#34;&#34;        
+        self.np_random, self.seed = seeding.np_random(seed)
+
+
+    def _load_data(self):
+        &#34;&#34;&#34;
+        Helper method to load the data
+        &#34;&#34;&#34;
+        assert isinstance(self.data, pd.DataFrame) or isinstance(self.data, list), \
+        &#39;Please provide a list of tickers or a dataframe&#39;
+
+        # downloading data from yahoo finance if tickers were provided
+        if isinstance(self.data, list):
+            prices = yf.download(self.data, start = self.start_date,
+                                    end = self.end_date, interval=&#34;1d&#34;, actions=True)
+            prices.dropna(inplace=True)
+            prices = prices[&#34;Adj Close&#34;]
+        else:
+            prices = self.data.copy()
+            prices.dropna(inplace=True)
+        
+        prices.index = pd.to_datetime(prices.index)
+        
+        for col in prices.columns:
+            prices[col] = prices[col].astype(np.float32)
+        return prices
+    
+    def _preprocess_data(self, df):
+        &#34;&#34;&#34;
+        Helper method to preprocess the data
+        &#34;&#34;&#34;
+        date_range = range(len(df))
+        index_to_date_map = dict(zip(date_range, df.index))
+        returns_df = df.pct_change().fillna(0)
+        return index_to_date_map, returns_df
+
+    def _initialize_env(self):
+        &#34;&#34;&#34;
+        Helper method to create all the environment variables
+        &#34;&#34;&#34;
+        ext_stock_list = self.stocks_names.copy() + [&#39;Cash&#39;, &#39;Trading Costs&#39;]
+        self.weights = [dict(zip(ext_stock_list, [0]*(self.n) + [1, 0]))]
+        self.current_holding = [0] * self.n
+        self.AVAILABLE_AMT = self.initial_investment
+        self.CASH = self.initial_investment
+
+        self.num_actions_taken = 0
+        self.curr_reward = 0
+        self.log_returns = []
+        self.sharpe_ratios = []
+        self.date_map = None
+
+        self.prices = self._load_data()
+        self.date_map, self.observations = self._preprocess_data(self.prices)
+        
+        self.start_day = self.np_random.choice(range(self.lookback_period, 
+                            self.lookback_period + self.random_start_range + 1))
+        self.end_day = min(self.start_day + self.episode_length, 
+                            len(self.prices) - 1)
+
+    def _get_new_state(self):
+        &#34;&#34;&#34;
+        Helper method to return current observation state
+        &#34;&#34;&#34;
+        self.current_day = self.num_actions_taken + self.start_day
+        state_end_day = self.current_day - 1
+        state_start_day = state_end_day - self.lookback_period + 1
+
+        state_start_date = self.date_map[state_start_day]
+        state_end_date = self.date_map[state_end_day]
+
+
+        state_obs = self.observations[state_start_date : state_end_date]
+        state_obs = np.array(np.concatenate(state_obs.fillna(0).values, 
+                    axis = 0), dtype = &#39;float32&#39;)
+        return state_obs
+
+    def _check_actions(self, action, check_dim = True):
+        &#34;&#34;&#34;
+        Helper method to check validity of the actions received
+        &#34;&#34;&#34;
+        if abs(sum(action) - 1) &gt; 1e-3:
+            print(action)
+            assert False, &#39;Wrong portfolio weights!&#39;
+        
+        if check_dim:
+            assert self.action_space.contains(np.array(action, dtype = &#39;float32&#39;)), \
+                    f&#39;{action} action does not belong to space&#39;
+
+    
+    def _compute_buyable_shares(self, budgets, prices):
+        &#34;&#34;&#34;Helper method to compute buyable shares
+        &#34;&#34;&#34;        
+        shares = [budget/price for budget, price in zip(budgets, prices)]
+        return shares
+    
+    def _compute_trading_costs(self, shares_now, shares_prev, prices):
+        &#34;&#34;&#34;
+        Helper method to compute trading costs
+        &#34;&#34;&#34;        
+        trading_costs = []
+        
+        for now, prev, price in zip(shares_now, shares_prev, prices):
+            diff = abs(now - prev)
+            if diff &lt; 1:
+                trading_costs.append(0)
+            else:
+                #print(diff, price, self.trading_cost_ratio)
+                trading_costs.append(diff * price * self.trading_cost_ratio)
+        
+        return trading_costs
+
+    def _take_action(self, actions):
+        &#34;&#34;&#34;
+        Helper method to compute effects of agent&#39;s action on environment
+        &#34;&#34;&#34;
+        # For stable baseline model implementations
+        if isinstance(actions, tuple):
+            actions = actions[0]
+
+        if self.add_softmax:
+            actions = softmax(actions)
+
+        self._check_actions(actions)
+        
+        # Allocating Budget
+        if self.retain_cash:
+            actions_ = actions[:-1]
+            cash_budget_ratio = actions[-1]
+        else:
+            actions_ = actions
+            cash_budget_ratio = 0
+
+        budget_allocation = [action * self.AVAILABLE_AMT \
+                            for action in actions_]
+        self.CASH = cash_budget_ratio * self.AVAILABLE_AMT
+
+        # Computing Trading Costs
+        current_date = self.date_map[self.current_day]
+        prices = self.prices.loc[current_date]
+        
+        buyable_shares = self._compute_buyable_shares(
+                                                      budget_allocation,
+                                                      prices)
+
+        trading_costs = self._compute_trading_costs(buyable_shares, 
+                                                    self.current_holding,
+                                                    list(prices.values))
+
+        self.current_holding = buyable_shares
+
+        # Recomputing portfolio weights
+        total_trading_costs = sum(trading_costs)
+        ext_stock_list = self.stocks_names.copy() + [&#39;Cash&#39;, &#39;Trading Costs&#39;]
+        ext_allocation = budget_allocation + [self.CASH, total_trading_costs]
+        total_amount = sum(ext_allocation)
+        
+        portfolio_weights = {stock : allocation/total_amount \
+                            for stock, allocation in \
+                            zip(ext_stock_list, ext_allocation)}
+
+        self._check_actions(list(portfolio_weights.values()), check_dim = False)
+        self.weights.append(portfolio_weights)
+        
+        assert total_trading_costs &gt;= 0, &#39;Error in trading costs calculations&#39;
+        self.AVAILABLE_AMT = total_amount - total_trading_costs
+        
+
+    def _get_returns(self):
+        &#34;&#34;&#34;
+        Helper method to calculate log returns
+        &#34;&#34;&#34;
+        current_date = self.date_map[self.current_day]
+        observation = self.observations.loc[current_date]
+        curr_portfolio = self.weights[self.num_actions_taken]
+        
+        
+        simple_returns = 0
+        for stock in self.stocks_names:
+            simple_returns += curr_portfolio[stock] * observation[stock]
+        
+        a =  simple_returns * self.AVAILABLE_AMT
+        self.AVAILABLE_AMT += a
+        
+        self.log_returns += [np.log(simple_returns + 1)]
+        
+    def _get_sharpe_ratio(self):
+        &#34;&#34;&#34;
+        Helper method to calculate differential sharpe ratio
+        &#34;&#34;&#34;
+        if self.num_actions_taken &lt; self.lookback_period:
+            S = 0
+        else:
+            window = [log_to_simple(i) for i in self.log_returns]
+            S = np.nanmean(window)/np.nanstd(window) * np.sqrt(252) / len(window)
+        self.sharpe_ratios += [S]
+
+    def _get_reward(self):
+        &#34;&#34;&#34;
+        Helper method to calculate both rewards and return one 
+        &#34;&#34;&#34;
+        self._get_returns()
+        self._get_sharpe_ratio()
+        
+        if self.returns:
+            curr_reward = self.log_returns[-1]
+        else:
+            curr_reward = self.sharpe_ratios[-1]
+        return curr_reward
+
+    def _get_done_status(self):
+        &#34;&#34;&#34;
+        Helper method to get end state status
+        &#34;&#34;&#34;
+        return self.current_day &gt;= self.end_day</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="AssetAllocator.environments.PortfolioGym.PortfolioManagementGym"><code class="flex name class">
+<span>class <span class="ident">PortfolioManagementGym</span></span>
+<span>(</span><span>data, episode_length=None, returns=True, trading_cost_ratio=0.001, lookback_period=64, initial_investment=1000000, retain_cash=True, random_start_range=20, dsr_constant=0.0001, add_softmax=False, start_date='2009-01-01', end_date='2022-01-01', seed=0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Portfolio Management Gym</p>
+<p>Initializes the gym environment</p>
+<h2 id="args">Args</h2>
+<p>data : pandas dataframe with date index and stock columnns with price data
+or list of stock tickers</p>
+<p>episode_length : how long the agent should interact with the environment</p>
+<dl>
+<dt><strong><code>returns</code></strong></dt>
+<dd>If True, use log_returns as reward. Else, use sharpe ratio</dd>
+</dl>
+<p>trading_cost_ratio : percentage of stock price that accounts for trading costs</p>
+<p>lookback_period : a fixed sized window, used to know how much data to return to the agent as observation</p>
+<p>initial_investment : how much the agent wants to invest</p>
+<p>retain_cash : bool value to tell the value whether to keep a cash value.</p>
+<p>random_start_range : random start position for training, should be set to 0 for test</p>
+<p>dsr_constant : smoothing parameter for differential sharpe ratio</p>
+<p>add_softmax : bool value to tell the agent whether to soft-normalize the input action</p>
+<p>start_date : start date for yahoo finance download</p>
+<p>end_date : end date for yahoo finance download</p>
+<p>seed : seed value for environment reproducibility</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PortfolioManagementGym(gym.Env):
+    &#34;&#34;&#34;
+    Portfolio Management Gym
+    &#34;&#34;&#34;
+    def __init__(self,
+                 data,
+                 episode_length = None,
+                 returns = True,
+                 trading_cost_ratio = 0.001,
+                 lookback_period = 64,
+                 initial_investment = 1_000_000,
+                 retain_cash = True,
+                 random_start_range = 20,
+                 dsr_constant = 1e-4,
+                 add_softmax = False,
+                 start_date = &#39;2009-01-01&#39;,
+                 end_date = &#39;2022-01-01&#39;,
+                 seed = 0):
+        &#34;&#34;&#34;
+        Initializes the gym environment
+
+        Args:
+            data : pandas dataframe with date index and stock columnns with price data 
+                or list of stock tickers
+                
+            episode_length : how long the agent should interact with the environment
+
+            returns: If True, use log_returns as reward. Else, use sharpe ratio
+
+            trading_cost_ratio : percentage of stock price that accounts for trading costs
+
+            lookback_period : a fixed sized window, used to know how much data to return to the agent as observation
+
+            initial_investment : how much the agent wants to invest
+
+            retain_cash : bool value to tell the value whether to keep a cash value.
+
+            random_start_range : random start position for training, should be set to 0 for test
+
+            dsr_constant : smoothing parameter for differential sharpe ratio
+
+            add_softmax : bool value to tell the agent whether to soft-normalize the input action
+
+            start_date : start date for yahoo finance download
+
+            end_date : end date for yahoo finance download
+
+            seed : seed value for environment reproducibility
+                  
+        &#34;&#34;&#34;
+
+        self.data = data
+        self.episode_length = episode_length
+        self.returns = returns
+        self.trading_cost_ratio = trading_cost_ratio
+        self.lookback_period = lookback_period
+        self.initial_investment = initial_investment
+        self.retain_cash = retain_cash
+        self.random_start_range = random_start_range
+        self.dsr_constant = dsr_constant
+        self.add_softmax = add_softmax
+        self.start_date = start_date
+        self.end_date = end_date
+
+        if isinstance(data, pd.DataFrame):
+            self.stocks_names = list(self.data.columns)
+            _, self.n = self.data.shape
+        else:
+            self.stocks = data
+            self.n = len(self.data)
+        
+        action_dim = self.n + self.retain_cash
+        state_dim = self.lookback_period * self.n
+        
+        self.start_date = start_date
+        self.end_date = end_date
+        
+        self.observation_space = spaces.Box(np.finfo(&#39;d&#39;).min,np.finfo(&#39;d&#39;).max,shape=(state_dim,))
+        self.action_space = spaces.Box(0, 1, shape=(action_dim,))
+        
+        self._seed(seed)
+        self.reset()
+
+    def reset(self):
+        &#34;&#34;&#34;
+        Resets the environment to the start state
+
+        Returns:
+            Initial observation (array_like)
+        &#34;&#34;&#34;        
+        self._initialize_env()
+        obs = self._get_new_state()
+        width = self.observation_space.shape[0] - len(obs)
+        obs = np.array(np.pad(obs, (width,0), constant_values = 0), dtype = &#39;float32&#39;)
+        return obs
+
+    def step(self, action):
+        &#34;&#34;&#34;
+        Takes in an action of size action_dim
+        Returns the observation, reward, episode_statuss
+        &#34;&#34;&#34;
+
+        if not self._get_done_status():
+            self.num_actions_taken += 1
+            self._take_action(action)
+        
+        new_state = np.array(self._get_new_state(), dtype = &#39;float32&#39;)
+        assert self.observation_space.contains(new_state), \
+            f&#39;observation does not belong to space&#39;
+
+        reward = self._get_reward()
+        episode_over = self._get_done_status()
+        info = {}
+
+        return new_state, reward, episode_over, info
+
+    def render(self):
+        &#34;&#34;&#34;
+        Returns an array of simple returns, differential sharpe ratio, and available amount
+        &#34;&#34;&#34;        
+        return [log_to_simple(self.log_returns[-1]), 
+                    self.sharpe_ratios[-1], self.AVAILABLE_AMT]
+
+
+   #################################################################################################
+    #################################### HELPER FUNCTIONS ###########################################
+    #################################################################################################
+    
+
+    def _seed(self, seed = None):
+        &#34;&#34;&#34;
+        Helper method to set seed
+        &#34;&#34;&#34;        
+        self.np_random, self.seed = seeding.np_random(seed)
+
+
+    def _load_data(self):
+        &#34;&#34;&#34;
+        Helper method to load the data
+        &#34;&#34;&#34;
+        assert isinstance(self.data, pd.DataFrame) or isinstance(self.data, list), \
+        &#39;Please provide a list of tickers or a dataframe&#39;
+
+        # downloading data from yahoo finance if tickers were provided
+        if isinstance(self.data, list):
+            prices = yf.download(self.data, start = self.start_date,
+                                    end = self.end_date, interval=&#34;1d&#34;, actions=True)
+            prices.dropna(inplace=True)
+            prices = prices[&#34;Adj Close&#34;]
+        else:
+            prices = self.data.copy()
+            prices.dropna(inplace=True)
+        
+        prices.index = pd.to_datetime(prices.index)
+        
+        for col in prices.columns:
+            prices[col] = prices[col].astype(np.float32)
+        return prices
+    
+    def _preprocess_data(self, df):
+        &#34;&#34;&#34;
+        Helper method to preprocess the data
+        &#34;&#34;&#34;
+        date_range = range(len(df))
+        index_to_date_map = dict(zip(date_range, df.index))
+        returns_df = df.pct_change().fillna(0)
+        return index_to_date_map, returns_df
+
+    def _initialize_env(self):
+        &#34;&#34;&#34;
+        Helper method to create all the environment variables
+        &#34;&#34;&#34;
+        ext_stock_list = self.stocks_names.copy() + [&#39;Cash&#39;, &#39;Trading Costs&#39;]
+        self.weights = [dict(zip(ext_stock_list, [0]*(self.n) + [1, 0]))]
+        self.current_holding = [0] * self.n
+        self.AVAILABLE_AMT = self.initial_investment
+        self.CASH = self.initial_investment
+
+        self.num_actions_taken = 0
+        self.curr_reward = 0
+        self.log_returns = []
+        self.sharpe_ratios = []
+        self.date_map = None
+
+        self.prices = self._load_data()
+        self.date_map, self.observations = self._preprocess_data(self.prices)
+        
+        self.start_day = self.np_random.choice(range(self.lookback_period, 
+                            self.lookback_period + self.random_start_range + 1))
+        self.end_day = min(self.start_day + self.episode_length, 
+                            len(self.prices) - 1)
+
+    def _get_new_state(self):
+        &#34;&#34;&#34;
+        Helper method to return current observation state
+        &#34;&#34;&#34;
+        self.current_day = self.num_actions_taken + self.start_day
+        state_end_day = self.current_day - 1
+        state_start_day = state_end_day - self.lookback_period + 1
+
+        state_start_date = self.date_map[state_start_day]
+        state_end_date = self.date_map[state_end_day]
+
+
+        state_obs = self.observations[state_start_date : state_end_date]
+        state_obs = np.array(np.concatenate(state_obs.fillna(0).values, 
+                    axis = 0), dtype = &#39;float32&#39;)
+        return state_obs
+
+    def _check_actions(self, action, check_dim = True):
+        &#34;&#34;&#34;
+        Helper method to check validity of the actions received
+        &#34;&#34;&#34;
+        if abs(sum(action) - 1) &gt; 1e-3:
+            print(action)
+            assert False, &#39;Wrong portfolio weights!&#39;
+        
+        if check_dim:
+            assert self.action_space.contains(np.array(action, dtype = &#39;float32&#39;)), \
+                    f&#39;{action} action does not belong to space&#39;
+
+    
+    def _compute_buyable_shares(self, budgets, prices):
+        &#34;&#34;&#34;Helper method to compute buyable shares
+        &#34;&#34;&#34;        
+        shares = [budget/price for budget, price in zip(budgets, prices)]
+        return shares
+    
+    def _compute_trading_costs(self, shares_now, shares_prev, prices):
+        &#34;&#34;&#34;
+        Helper method to compute trading costs
+        &#34;&#34;&#34;        
+        trading_costs = []
+        
+        for now, prev, price in zip(shares_now, shares_prev, prices):
+            diff = abs(now - prev)
+            if diff &lt; 1:
+                trading_costs.append(0)
+            else:
+                #print(diff, price, self.trading_cost_ratio)
+                trading_costs.append(diff * price * self.trading_cost_ratio)
+        
+        return trading_costs
+
+    def _take_action(self, actions):
+        &#34;&#34;&#34;
+        Helper method to compute effects of agent&#39;s action on environment
+        &#34;&#34;&#34;
+        # For stable baseline model implementations
+        if isinstance(actions, tuple):
+            actions = actions[0]
+
+        if self.add_softmax:
+            actions = softmax(actions)
+
+        self._check_actions(actions)
+        
+        # Allocating Budget
+        if self.retain_cash:
+            actions_ = actions[:-1]
+            cash_budget_ratio = actions[-1]
+        else:
+            actions_ = actions
+            cash_budget_ratio = 0
+
+        budget_allocation = [action * self.AVAILABLE_AMT \
+                            for action in actions_]
+        self.CASH = cash_budget_ratio * self.AVAILABLE_AMT
+
+        # Computing Trading Costs
+        current_date = self.date_map[self.current_day]
+        prices = self.prices.loc[current_date]
+        
+        buyable_shares = self._compute_buyable_shares(
+                                                      budget_allocation,
+                                                      prices)
+
+        trading_costs = self._compute_trading_costs(buyable_shares, 
+                                                    self.current_holding,
+                                                    list(prices.values))
+
+        self.current_holding = buyable_shares
+
+        # Recomputing portfolio weights
+        total_trading_costs = sum(trading_costs)
+        ext_stock_list = self.stocks_names.copy() + [&#39;Cash&#39;, &#39;Trading Costs&#39;]
+        ext_allocation = budget_allocation + [self.CASH, total_trading_costs]
+        total_amount = sum(ext_allocation)
+        
+        portfolio_weights = {stock : allocation/total_amount \
+                            for stock, allocation in \
+                            zip(ext_stock_list, ext_allocation)}
+
+        self._check_actions(list(portfolio_weights.values()), check_dim = False)
+        self.weights.append(portfolio_weights)
+        
+        assert total_trading_costs &gt;= 0, &#39;Error in trading costs calculations&#39;
+        self.AVAILABLE_AMT = total_amount - total_trading_costs
+        
+
+    def _get_returns(self):
+        &#34;&#34;&#34;
+        Helper method to calculate log returns
+        &#34;&#34;&#34;
+        current_date = self.date_map[self.current_day]
+        observation = self.observations.loc[current_date]
+        curr_portfolio = self.weights[self.num_actions_taken]
+        
+        
+        simple_returns = 0
+        for stock in self.stocks_names:
+            simple_returns += curr_portfolio[stock] * observation[stock]
+        
+        a =  simple_returns * self.AVAILABLE_AMT
+        self.AVAILABLE_AMT += a
+        
+        self.log_returns += [np.log(simple_returns + 1)]
+        
+    def _get_sharpe_ratio(self):
+        &#34;&#34;&#34;
+        Helper method to calculate differential sharpe ratio
+        &#34;&#34;&#34;
+        if self.num_actions_taken &lt; self.lookback_period:
+            S = 0
+        else:
+            window = [log_to_simple(i) for i in self.log_returns]
+            S = np.nanmean(window)/np.nanstd(window) * np.sqrt(252) / len(window)
+        self.sharpe_ratios += [S]
+
+    def _get_reward(self):
+        &#34;&#34;&#34;
+        Helper method to calculate both rewards and return one 
+        &#34;&#34;&#34;
+        self._get_returns()
+        self._get_sharpe_ratio()
+        
+        if self.returns:
+            curr_reward = self.log_returns[-1]
+        else:
+            curr_reward = self.sharpe_ratios[-1]
+        return curr_reward
+
+    def _get_done_status(self):
+        &#34;&#34;&#34;
+        Helper method to get end state status
+        &#34;&#34;&#34;
+        return self.current_day &gt;= self.end_day</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>gym.core.Env</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="AssetAllocator.environments.PortfolioGym.PortfolioManagementGym.render"><code class="name flex">
+<span>def <span class="ident">render</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns an array of simple returns, differential sharpe ratio, and available amount</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def render(self):
+    &#34;&#34;&#34;
+    Returns an array of simple returns, differential sharpe ratio, and available amount
+    &#34;&#34;&#34;        
+    return [log_to_simple(self.log_returns[-1]), 
+                self.sharpe_ratios[-1], self.AVAILABLE_AMT]</code></pre>
+</details>
+</dd>
+<dt id="AssetAllocator.environments.PortfolioGym.PortfolioManagementGym.reset"><code class="name flex">
+<span>def <span class="ident">reset</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Resets the environment to the start state</p>
+<h2 id="returns">Returns</h2>
+<p>Initial observation (array_like)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reset(self):
+    &#34;&#34;&#34;
+    Resets the environment to the start state
+
+    Returns:
+        Initial observation (array_like)
+    &#34;&#34;&#34;        
+    self._initialize_env()
+    obs = self._get_new_state()
+    width = self.observation_space.shape[0] - len(obs)
+    obs = np.array(np.pad(obs, (width,0), constant_values = 0), dtype = &#39;float32&#39;)
+    return obs</code></pre>
+</details>
+</dd>
+<dt id="AssetAllocator.environments.PortfolioGym.PortfolioManagementGym.step"><code class="name flex">
+<span>def <span class="ident">step</span></span>(<span>self, action)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Takes in an action of size action_dim
+Returns the observation, reward, episode_statuss</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def step(self, action):
+    &#34;&#34;&#34;
+    Takes in an action of size action_dim
+    Returns the observation, reward, episode_statuss
+    &#34;&#34;&#34;
+
+    if not self._get_done_status():
+        self.num_actions_taken += 1
+        self._take_action(action)
+    
+    new_state = np.array(self._get_new_state(), dtype = &#39;float32&#39;)
+    assert self.observation_space.contains(new_state), \
+        f&#39;observation does not belong to space&#39;
+
+    reward = self._get_reward()
+    episode_over = self._get_done_status()
+    info = {}
+
+    return new_state, reward, episode_over, info</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="AssetAllocator.environments" href="index.html">AssetAllocator.environments</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="AssetAllocator.environments.PortfolioGym.PortfolioManagementGym" href="#AssetAllocator.environments.PortfolioGym.PortfolioManagementGym">PortfolioManagementGym</a></code></h4>
+<ul class="">
+<li><code><a title="AssetAllocator.environments.PortfolioGym.PortfolioManagementGym.render" href="#AssetAllocator.environments.PortfolioGym.PortfolioManagementGym.render">render</a></code></li>
+<li><code><a title="AssetAllocator.environments.PortfolioGym.PortfolioManagementGym.reset" href="#AssetAllocator.environments.PortfolioGym.PortfolioManagementGym.reset">reset</a></code></li>
+<li><code><a title="AssetAllocator.environments.PortfolioGym.PortfolioManagementGym.step" href="#AssetAllocator.environments.PortfolioGym.PortfolioManagementGym.step">step</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

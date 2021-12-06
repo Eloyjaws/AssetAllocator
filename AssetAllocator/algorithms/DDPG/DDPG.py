@@ -3,9 +3,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from Network import Actor, Critic
-from Replay_Memory import ReplayMemory
-from OU_Noise import OrnsteinUhlenbeckNoise
+from .Network import Actor, Critic
+from .Replay_Memory import ReplayMemory
+from .OU_Noise import OrnsteinUhlenbeckNoise
 
 class DDPGAgent:
     """This is the agent class for the DDPG Agent.

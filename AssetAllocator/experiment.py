@@ -9,7 +9,7 @@ else:
     # print('We are running the script interactively')
     sys.path.append("..")
 
-from .algorithms.BASELINES.agent import BaselineAgent
+from .algorithms.Baselines.agent import BaselineAgent
 from .algorithms.NAF.agent import NAFAgent
 from .algorithms.TD3.agent import TD3Agent
 

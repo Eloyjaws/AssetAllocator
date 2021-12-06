@@ -1,0 +1,1197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>AssetAllocator.algorithms.TRPO.agent API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>AssetAllocator.algorithms.TRPO.agent</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from itertools import count
+import signal
+import sys
+import os
+import time
+sys.path.append(&#39;..&#39;)
+import numpy as np
+import gym
+import torch
+import torch.autograd as autograd
+from torch.autograd import Variable
+import scipy.optimize
+import matplotlib.pyplot as plt
+from .value import Value
+from .policy import Policy
+from .utils import *
+from .trpo import trpo_step
+
+class TRPOAgent:
+    &#34;&#34;&#34;
+        This is the agent class for the Trust Region Policy Optmization Algorithm.
+
+        Original paper can be found at https://arxiv.org/abs/1502.05477
+
+        This implementation was adapted from https://github.com/MEfeTiryaki/trpo/blob/master/train.py    
+    &#34;&#34;&#34;
+    def __init__(
+        self,
+        env,
+        device = &#39;cuda&#39;,
+        damping=0.1,        
+        episode_length= 2000,
+        fisher_ratio=1,
+        gamma=0.995,
+        l2_reg=0.001,
+        lambda_=0.97,
+        lr=0.001,
+        max_iteration_number=200,
+        max_kl=0.01,
+        save=False,
+        seed=543,
+        val_opt_iter=200,
+        value_memory=1,
+        value_memory_shuffle=False):
+        &#34;&#34;&#34;Initialize a TRPOAgent object.
+        
+        Params
+        ======
+            env (PortfolioGymEnv): instance of environment
+            device: device type (one of cuda or cpu)
+            damping: policy optimization parameter
+            episode_length: max step size for one episode
+            fisher_ratio: policy optimization parameter
+            l2_reg: l2 regularization regression
+            lambda_: gae
+            max_iteration_number: max policy iteration number
+            max_kl: max kl divergence (policy optimization parameter)
+            val_opt_iter: iteration number for value function learning
+            lr (float): learning rate
+            gamma (float): discount factor
+            seed (int): random seed
+        &#34;&#34;&#34;        
+        self.env = env
+        self.device = device
+        self.damping = damping
+        self.episode_length = episode_length
+        self.fisher_ratio = fisher_ratio
+        self.gamma = gamma
+        self.l2_reg = l2_reg
+        self.lambda_ = lambda_
+        self.lr = lr        
+        self.max_iteration_number = max_iteration_number
+        self.max_kl = max_kl
+        self.val_opt_iter = val_opt_iter
+        self.save = save
+        self.seed = seed
+        self.value_memory = value_memory
+        self.value_memory_shuffle = value_memory_shuffle
+        
+        self.state_dim = env.observation_space.shape[0]
+        self.action_dim = env.action_space.shape[-1]
+        
+        self.policy_net = Policy(self.state_dim, self.action_dim, 256, device).to(device)
+        self.value_net = Value(self.state_dim, 256).to(device)
+        
+        
+    def signal_handler(self, sig, frame):
+        &#34;&#34;&#34; 
+            Signal Handler to save the networks when shutting down via ctrl+C
+            Parameters:
+            ==========
+            sig
+            frame
+            
+            Returns:
+        &#34;&#34;&#34;
+        if(self.save):
+            valueParam = get_flat_params_from(self.value_net)
+            policyParam = get_flat_params_from(self.policy_net)
+            saveParameterCsv(valueParam,self.load_dir+&#34;/ValueNet&#34;)
+            saveParameterCsv(policyParam,self.load_dir+&#34;/PolicyNet&#34;)
+            print(&#34;Networks are saved in &#34;+self.load_dir+&#34;/&#34;)
+
+        print(&#39;Closing!!&#39;)
+        env.close()
+        sys.exit(0)
+
+    def prepare_data(self, batch, valueBatch, previousBatch):
+        &#34;&#34;&#34; 
+            Get the batch data and calculate value,return and generalized advantage
+            Parameters:
+            ==========
+            batch
+            valueBatch
+            previousBatch
+            
+        &#34;&#34;&#34;
+
+        stateList = [ torch.from_numpy(np.concatenate(x,axis=0)).to(self.device) for x in batch[&#34;states&#34;]]
+        actionsList = [torch.from_numpy(np.concatenate(x,axis=0)).to(self.device) for x in batch[&#34;actions&#34;]]
+
+        for states in stateList:
+            value = self.value_net.forward(states)
+            batch[&#34;values&#34;].append(value)
+
+        advantagesList = []
+        returnsList = []
+        rewardsList = []
+        for rewards,values,masks in zip(batch[&#34;rewards&#34;],batch[&#34;values&#34;],batch[&#34;mask&#34;]):
+            returns = torch.Tensor(len(rewards),1).to(self.device)
+            advantages = torch.Tensor(len(rewards),1).to(self.device)
+            deltas = torch.Tensor(len(rewards),1).to(self.device)
+
+            prev_return = 0
+            prev_value = 0
+            prev_advantage = 0
+            for i in reversed(range(len(rewards))):
+                returns[i] = rewards[i] + self.gamma * prev_value * masks[i] # TD
+                # returns[i] = rewards[i] + self.gamma * prev_return * masks[i] # Monte Carlo
+                deltas[i] = rewards[i] + self.gamma * prev_value * masks[i]- values.data[i]
+                advantages[i] = deltas[i] + self.gamma * self.lambda_* prev_advantage* masks[i]
+
+                prev_return = returns[i, 0]
+                prev_value = values.data[i, 0]
+                prev_advantage = advantages[i, 0]
+            returnsList.append(returns)
+            advantagesList.append(advantages)
+            rewardsList.append(torch.Tensor(rewards).to(self.device))
+
+
+        batch[&#34;states&#34;] = torch.cat(stateList,0)
+        batch[&#34;actions&#34;] = torch.cat(actionsList,0)
+        batch[&#34;rewards&#34;] = torch.cat(rewardsList,0)
+        batch[&#34;returns&#34;] = torch.cat(returnsList,0)
+
+        advantagesList = torch.cat(advantagesList,0)
+        batch[&#34;advantages&#34;] = (advantagesList- advantagesList.mean()) / advantagesList.std()
+
+        valueBatch[&#34;states&#34;] = torch.cat(( previousBatch[&#34;states&#34;],batch[&#34;states&#34;]),0)
+        valueBatch[&#34;targets&#34;] =  torch.cat((previousBatch[&#34;returns&#34;],batch[&#34;returns&#34;]),0)
+
+    def update_policy(self, batch):
+        &#34;&#34;&#34; 
+            Get advantage , states and action and calls trpo step
+            Parameters:
+            batch (dict of arrays of numpy)
+            Returns:
+        &#34;&#34;&#34;
+        advantages = batch[&#34;advantages&#34;]
+        states = batch[&#34;states&#34;]
+        actions = batch[&#34;actions&#34;]
+        trpo_step(self.policy_net, states,actions,advantages , self.max_kl, self.damping)
+
+    def update_value(self, valueBatch):
+        &#34;&#34;&#34; 
+            Get valueBatch and run adam optimizer to learn value function
+            Parameters:
+            valueBatch  (dict of arrays of numpy)
+            Returns:
+        &#34;&#34;&#34;
+        # shuffle the data
+        dataSize = valueBatch[&#34;targets&#34;].size()[0]
+        permutation = torch.randperm(dataSize)
+        input = valueBatch[&#34;states&#34;][permutation]
+        target = valueBatch[&#34;targets&#34;][permutation]
+
+        iter = self.val_opt_iter
+        batchSize = int(dataSize/ iter)
+
+        loss_fn = torch.nn.MSELoss(reduction=&#39;sum&#39;)
+        optimizer = torch.optim.Adam(self.value_net.parameters(), lr=self.lr)
+        for t in range(iter):
+            prediction = self.value_net(input[t*batchSize:t*batchSize+batchSize])
+            loss = loss_fn(prediction, target[t*batchSize:t*batchSize+batchSize])
+            # XXX : Comment out for debug
+            # if t%100==0:
+            #     print(&#34;\t%f&#34;%loss.data)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+
+    def save_to_previousBatch(self, previousBatch, batch):
+        &#34;&#34;&#34; 
+            Save previous batch to use in future value optimization
+            Parameters:
+            previousBatch  (dict of arrays of numpy)
+            batch (dict of arrays of numpy)
+        &#34;&#34;&#34;
+        if self.value_memory&lt;0:
+            print(&#34;Value memory should be equal or greater than zero&#34;)
+        elif self.value_memory&gt;0:
+            if previousBatch[&#34;returns&#34;].size() == 0:
+                previousBatch= {&#34;states&#34;:batch[&#34;states&#34;],
+                                &#34;returns&#34;:batch[&#34;returns&#34;]}
+            else:
+                previous_size = previousBatch[&#34;returns&#34;].size()[0]
+                size =  batch[&#34;returns&#34;].size()[0]
+                if previous_size/size == self.value_memory:
+                    previousBatch[&#34;states&#34;] = torch.cat([previousBatch[&#34;states&#34;][size:],batch[&#34;states&#34;]],0)
+                    previousBatch[&#34;returns&#34;] = torch.cat([previousBatch[&#34;returns&#34;][size:],batch[&#34;returns&#34;]],0)
+                else:
+                    previousBatch[&#34;states&#34;] = torch.cat([previousBatch[&#34;states&#34;],batch[&#34;states&#34;]],0)
+                    previousBatch[&#34;returns&#34;] = torch.cat([previousBatch[&#34;returns&#34;],batch[&#34;returns&#34;]],0)
+        if self.value_memory_shuffle:
+            permutation = torch.randperm(previousBatch[&#34;returns&#34;].size()[0])
+            previousBatch[&#34;states&#34;] = previousBatch[&#34;states&#34;][permutation]
+            previousBatch[&#34;returns&#34;] = previousBatch[&#34;returns&#34;][permutation]
+
+    def calculate_loss(self, reward_sum_mean,reward_sum_std,test_number = 10):
+        &#34;&#34;&#34; 
+            Calculate mean cummulative reward for test_nubmer of trials
+
+            Parameters:
+            reward_sum_mean (list): holds the history of the means.
+            reward_sum_std (list): holds the history of the std.
+
+            Returns:
+            list: new value appended means
+            list: new value appended stds
+        &#34;&#34;&#34;
+        rewardSum = []
+        for i in range(test_number):
+            state = self.env.reset()
+            rewardSum.append(0)
+            for t in range(self.episode_length):
+                state, reward, done, _ = self.env.step(self.policy_net.get_action(state)[0] )
+                state = np.transpose(state)
+                rewardSum[-1] += reward
+                if done:
+                    break
+        reward_sum_mean.append(np.array(rewardSum).mean())
+        reward_sum_std.append(np.array(rewardSum).std())
+        return reward_sum_mean, reward_sum_std
+    
+    
+    def predict(self, state):
+        &#34;&#34;&#34;
+                        Queries an action from the actor network, should be called from step.
+
+                        Parameters:
+                                state - the observation at the current timestep
+
+                        Return:
+                                action - the action to take, as a numpy array
+                &#34;&#34;&#34;
+        action = self.policy_net.get_action(state)[0]
+        return action
+
+                
+    def learn(self, timesteps, print_every = 1):
+        &#34;&#34;&#34;
+        Trains the agent
+
+        Params
+        ======
+            timesteps (int): Number of timesteps the agent should interact with the environment
+            print_every (int): Verbosity control
+        &#34;&#34;&#34;
+        signal.signal(signal.SIGINT, self.signal_handler)
+        time_start = time.time()
+
+        reward_sum_mean,reward_sum_std  = [], []
+        previousBatch= {&#34;states&#34;:torch.Tensor(0).to(self.device) ,
+                        &#34;returns&#34;:torch.Tensor(0).to(self.device)}
+
+        reward_sum_mean,reward_sum_std = self.calculate_loss(reward_sum_mean,reward_sum_std)
+        #print(&#34;Initial loss \n\tloss | mean : %6.4f / std : %6.4f&#34;%(reward_sum_mean[-1],reward_sum_std[-1])  )
+        num_steps = 0
+        flag = False
+        count_of_dones = 0
+        
+        max_iteration_number = timesteps//self.env.episode_length + 1
+        
+        for i_episode in range(max_iteration_number):
+            time_episode_start = time.time()
+            # reset batches
+            batch = {&#34;states&#34;:[] ,
+                    &#34;actions&#34;:[],
+                    &#34;next_states&#34;:[] ,
+                    &#34;rewards&#34;:[],
+                    &#34;returns&#34;:[],
+                    &#34;values&#34;:[],
+                    &#34;advantages&#34;:[],
+                    &#34;mask&#34;:[]}
+            valueBatch = {&#34;states&#34; :[],
+                        &#34;targets&#34; : []}
+
+
+            # while num_steps &lt; self.batch_size:
+            done = False
+            
+            while not done:
+                state = self.env.reset()
+                reward_sum = 0
+                states,actions,rewards,next_states,masks = [],[],[],[],[]
+                steps = 0
+                for t in range(self.env.episode_length):
+                    action = self.policy_net.get_action(state)[0] # agent
+                    next_state, reward, done, info = self.env.step(action)
+                    next_state = np.transpose(next_state)
+                    mask = 0 if done else 1
+
+                    masks.append(mask)
+                    states.append(state)
+                    actions.append(action)
+                    next_states.append(next_state)
+                    rewards.append(reward)
+
+                    state = next_state
+                    reward_sum += reward
+                    num_steps+=1
+                    
+                if done:
+                    count_of_dones += 1
+                    flag = True
+            
+                if flag and count_of_dones % print_every == 0:
+                    print(f&#39;Score at timestep {num_steps}: {reward_sum}.&#39;)
+                    flag = False
+                    
+                if num_steps &gt;= timesteps:
+                    break
+
+            batch[&#34;states&#34;].append(np.expand_dims(states, axis=1) )
+            batch[&#34;actions&#34;].append(actions)
+            batch[&#34;next_states&#34;].append(np.expand_dims(next_states, axis=1))
+            batch[&#34;rewards&#34;].append(rewards)
+            batch[&#34;mask&#34;].append(masks)
+            #num_steps += steps
+
+            self.prepare_data(batch,valueBatch,previousBatch)
+            self.update_policy(batch) # First policy update to avoid overfitting
+            self.update_value(valueBatch)
+
+            self.save_to_previousBatch(previousBatch,batch)
+
+            #print(&#34;episode %d | total: %.4f &#34;%( i_episode, time.time()-time_episode_start))
+            reward_sum_mean,reward_sum_std = self.calculate_loss(reward_sum_mean,reward_sum_std)
+            #print(&#34;loss | mean : %6.4f / std : %6.4f&#34;%(reward_sum_mean[-1],reward_sum_std[-1]))</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="AssetAllocator.algorithms.TRPO.agent.TRPOAgent"><code class="flex name class">
+<span>class <span class="ident">TRPOAgent</span></span>
+<span>(</span><span>env, device='cuda', damping=0.1, episode_length=2000, fisher_ratio=1, gamma=0.995, l2_reg=0.001, lambda_=0.97, lr=0.001, max_iteration_number=200, max_kl=0.01, save=False, seed=543, val_opt_iter=200, value_memory=1, value_memory_shuffle=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This is the agent class for the Trust Region Policy Optmization Algorithm.</p>
+<p>Original paper can be found at <a href="https://arxiv.org/abs/1502.05477">https://arxiv.org/abs/1502.05477</a></p>
+<p>This implementation was adapted from <a href="https://github.com/MEfeTiryaki/trpo/blob/master/train.py">https://github.com/MEfeTiryaki/trpo/blob/master/train.py</a>
+</p>
+<p>Initialize a TRPOAgent object.</p>
+<h1 id="params">Params</h1>
+<pre><code>env (PortfolioGymEnv): instance of environment
+device: device type (one of cuda or cpu)
+damping: policy optimization parameter
+episode_length: max step size for one episode
+fisher_ratio: policy optimization parameter
+l2_reg: l2 regularization regression
+lambda_: gae
+max_iteration_number: max policy iteration number
+max_kl: max kl divergence (policy optimization parameter)
+val_opt_iter: iteration number for value function learning
+lr (float): learning rate
+gamma (float): discount factor
+seed (int): random seed
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TRPOAgent:
+    &#34;&#34;&#34;
+        This is the agent class for the Trust Region Policy Optmization Algorithm.
+
+        Original paper can be found at https://arxiv.org/abs/1502.05477
+
+        This implementation was adapted from https://github.com/MEfeTiryaki/trpo/blob/master/train.py    
+    &#34;&#34;&#34;
+    def __init__(
+        self,
+        env,
+        device = &#39;cuda&#39;,
+        damping=0.1,        
+        episode_length= 2000,
+        fisher_ratio=1,
+        gamma=0.995,
+        l2_reg=0.001,
+        lambda_=0.97,
+        lr=0.001,
+        max_iteration_number=200,
+        max_kl=0.01,
+        save=False,
+        seed=543,
+        val_opt_iter=200,
+        value_memory=1,
+        value_memory_shuffle=False):
+        &#34;&#34;&#34;Initialize a TRPOAgent object.
+        
+        Params
+        ======
+            env (PortfolioGymEnv): instance of environment
+            device: device type (one of cuda or cpu)
+            damping: policy optimization parameter
+            episode_length: max step size for one episode
+            fisher_ratio: policy optimization parameter
+            l2_reg: l2 regularization regression
+            lambda_: gae
+            max_iteration_number: max policy iteration number
+            max_kl: max kl divergence (policy optimization parameter)
+            val_opt_iter: iteration number for value function learning
+            lr (float): learning rate
+            gamma (float): discount factor
+            seed (int): random seed
+        &#34;&#34;&#34;        
+        self.env = env
+        self.device = device
+        self.damping = damping
+        self.episode_length = episode_length
+        self.fisher_ratio = fisher_ratio
+        self.gamma = gamma
+        self.l2_reg = l2_reg
+        self.lambda_ = lambda_
+        self.lr = lr        
+        self.max_iteration_number = max_iteration_number
+        self.max_kl = max_kl
+        self.val_opt_iter = val_opt_iter
+        self.save = save
+        self.seed = seed
+        self.value_memory = value_memory
+        self.value_memory_shuffle = value_memory_shuffle
+        
+        self.state_dim = env.observation_space.shape[0]
+        self.action_dim = env.action_space.shape[-1]
+        
+        self.policy_net = Policy(self.state_dim, self.action_dim, 256, device).to(device)
+        self.value_net = Value(self.state_dim, 256).to(device)
+        
+        
+    def signal_handler(self, sig, frame):
+        &#34;&#34;&#34; 
+            Signal Handler to save the networks when shutting down via ctrl+C
+            Parameters:
+            ==========
+            sig
+            frame
+            
+            Returns:
+        &#34;&#34;&#34;
+        if(self.save):
+            valueParam = get_flat_params_from(self.value_net)
+            policyParam = get_flat_params_from(self.policy_net)
+            saveParameterCsv(valueParam,self.load_dir+&#34;/ValueNet&#34;)
+            saveParameterCsv(policyParam,self.load_dir+&#34;/PolicyNet&#34;)
+            print(&#34;Networks are saved in &#34;+self.load_dir+&#34;/&#34;)
+
+        print(&#39;Closing!!&#39;)
+        env.close()
+        sys.exit(0)
+
+    def prepare_data(self, batch, valueBatch, previousBatch):
+        &#34;&#34;&#34; 
+            Get the batch data and calculate value,return and generalized advantage
+            Parameters:
+            ==========
+            batch
+            valueBatch
+            previousBatch
+            
+        &#34;&#34;&#34;
+
+        stateList = [ torch.from_numpy(np.concatenate(x,axis=0)).to(self.device) for x in batch[&#34;states&#34;]]
+        actionsList = [torch.from_numpy(np.concatenate(x,axis=0)).to(self.device) for x in batch[&#34;actions&#34;]]
+
+        for states in stateList:
+            value = self.value_net.forward(states)
+            batch[&#34;values&#34;].append(value)
+
+        advantagesList = []
+        returnsList = []
+        rewardsList = []
+        for rewards,values,masks in zip(batch[&#34;rewards&#34;],batch[&#34;values&#34;],batch[&#34;mask&#34;]):
+            returns = torch.Tensor(len(rewards),1).to(self.device)
+            advantages = torch.Tensor(len(rewards),1).to(self.device)
+            deltas = torch.Tensor(len(rewards),1).to(self.device)
+
+            prev_return = 0
+            prev_value = 0
+            prev_advantage = 0
+            for i in reversed(range(len(rewards))):
+                returns[i] = rewards[i] + self.gamma * prev_value * masks[i] # TD
+                # returns[i] = rewards[i] + self.gamma * prev_return * masks[i] # Monte Carlo
+                deltas[i] = rewards[i] + self.gamma * prev_value * masks[i]- values.data[i]
+                advantages[i] = deltas[i] + self.gamma * self.lambda_* prev_advantage* masks[i]
+
+                prev_return = returns[i, 0]
+                prev_value = values.data[i, 0]
+                prev_advantage = advantages[i, 0]
+            returnsList.append(returns)
+            advantagesList.append(advantages)
+            rewardsList.append(torch.Tensor(rewards).to(self.device))
+
+
+        batch[&#34;states&#34;] = torch.cat(stateList,0)
+        batch[&#34;actions&#34;] = torch.cat(actionsList,0)
+        batch[&#34;rewards&#34;] = torch.cat(rewardsList,0)
+        batch[&#34;returns&#34;] = torch.cat(returnsList,0)
+
+        advantagesList = torch.cat(advantagesList,0)
+        batch[&#34;advantages&#34;] = (advantagesList- advantagesList.mean()) / advantagesList.std()
+
+        valueBatch[&#34;states&#34;] = torch.cat(( previousBatch[&#34;states&#34;],batch[&#34;states&#34;]),0)
+        valueBatch[&#34;targets&#34;] =  torch.cat((previousBatch[&#34;returns&#34;],batch[&#34;returns&#34;]),0)
+
+    def update_policy(self, batch):
+        &#34;&#34;&#34; 
+            Get advantage , states and action and calls trpo step
+            Parameters:
+            batch (dict of arrays of numpy)
+            Returns:
+        &#34;&#34;&#34;
+        advantages = batch[&#34;advantages&#34;]
+        states = batch[&#34;states&#34;]
+        actions = batch[&#34;actions&#34;]
+        trpo_step(self.policy_net, states,actions,advantages , self.max_kl, self.damping)
+
+    def update_value(self, valueBatch):
+        &#34;&#34;&#34; 
+            Get valueBatch and run adam optimizer to learn value function
+            Parameters:
+            valueBatch  (dict of arrays of numpy)
+            Returns:
+        &#34;&#34;&#34;
+        # shuffle the data
+        dataSize = valueBatch[&#34;targets&#34;].size()[0]
+        permutation = torch.randperm(dataSize)
+        input = valueBatch[&#34;states&#34;][permutation]
+        target = valueBatch[&#34;targets&#34;][permutation]
+
+        iter = self.val_opt_iter
+        batchSize = int(dataSize/ iter)
+
+        loss_fn = torch.nn.MSELoss(reduction=&#39;sum&#39;)
+        optimizer = torch.optim.Adam(self.value_net.parameters(), lr=self.lr)
+        for t in range(iter):
+            prediction = self.value_net(input[t*batchSize:t*batchSize+batchSize])
+            loss = loss_fn(prediction, target[t*batchSize:t*batchSize+batchSize])
+            # XXX : Comment out for debug
+            # if t%100==0:
+            #     print(&#34;\t%f&#34;%loss.data)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+
+    def save_to_previousBatch(self, previousBatch, batch):
+        &#34;&#34;&#34; 
+            Save previous batch to use in future value optimization
+            Parameters:
+            previousBatch  (dict of arrays of numpy)
+            batch (dict of arrays of numpy)
+        &#34;&#34;&#34;
+        if self.value_memory&lt;0:
+            print(&#34;Value memory should be equal or greater than zero&#34;)
+        elif self.value_memory&gt;0:
+            if previousBatch[&#34;returns&#34;].size() == 0:
+                previousBatch= {&#34;states&#34;:batch[&#34;states&#34;],
+                                &#34;returns&#34;:batch[&#34;returns&#34;]}
+            else:
+                previous_size = previousBatch[&#34;returns&#34;].size()[0]
+                size =  batch[&#34;returns&#34;].size()[0]
+                if previous_size/size == self.value_memory:
+                    previousBatch[&#34;states&#34;] = torch.cat([previousBatch[&#34;states&#34;][size:],batch[&#34;states&#34;]],0)
+                    previousBatch[&#34;returns&#34;] = torch.cat([previousBatch[&#34;returns&#34;][size:],batch[&#34;returns&#34;]],0)
+                else:
+                    previousBatch[&#34;states&#34;] = torch.cat([previousBatch[&#34;states&#34;],batch[&#34;states&#34;]],0)
+                    previousBatch[&#34;returns&#34;] = torch.cat([previousBatch[&#34;returns&#34;],batch[&#34;returns&#34;]],0)
+        if self.value_memory_shuffle:
+            permutation = torch.randperm(previousBatch[&#34;returns&#34;].size()[0])
+            previousBatch[&#34;states&#34;] = previousBatch[&#34;states&#34;][permutation]
+            previousBatch[&#34;returns&#34;] = previousBatch[&#34;returns&#34;][permutation]
+
+    def calculate_loss(self, reward_sum_mean,reward_sum_std,test_number = 10):
+        &#34;&#34;&#34; 
+            Calculate mean cummulative reward for test_nubmer of trials
+
+            Parameters:
+            reward_sum_mean (list): holds the history of the means.
+            reward_sum_std (list): holds the history of the std.
+
+            Returns:
+            list: new value appended means
+            list: new value appended stds
+        &#34;&#34;&#34;
+        rewardSum = []
+        for i in range(test_number):
+            state = self.env.reset()
+            rewardSum.append(0)
+            for t in range(self.episode_length):
+                state, reward, done, _ = self.env.step(self.policy_net.get_action(state)[0] )
+                state = np.transpose(state)
+                rewardSum[-1] += reward
+                if done:
+                    break
+        reward_sum_mean.append(np.array(rewardSum).mean())
+        reward_sum_std.append(np.array(rewardSum).std())
+        return reward_sum_mean, reward_sum_std
+    
+    
+    def predict(self, state):
+        &#34;&#34;&#34;
+                        Queries an action from the actor network, should be called from step.
+
+                        Parameters:
+                                state - the observation at the current timestep
+
+                        Return:
+                                action - the action to take, as a numpy array
+                &#34;&#34;&#34;
+        action = self.policy_net.get_action(state)[0]
+        return action
+
+                
+    def learn(self, timesteps, print_every = 1):
+        &#34;&#34;&#34;
+        Trains the agent
+
+        Params
+        ======
+            timesteps (int): Number of timesteps the agent should interact with the environment
+            print_every (int): Verbosity control
+        &#34;&#34;&#34;
+        signal.signal(signal.SIGINT, self.signal_handler)
+        time_start = time.time()
+
+        reward_sum_mean,reward_sum_std  = [], []
+        previousBatch= {&#34;states&#34;:torch.Tensor(0).to(self.device) ,
+                        &#34;returns&#34;:torch.Tensor(0).to(self.device)}
+
+        reward_sum_mean,reward_sum_std = self.calculate_loss(reward_sum_mean,reward_sum_std)
+        #print(&#34;Initial loss \n\tloss | mean : %6.4f / std : %6.4f&#34;%(reward_sum_mean[-1],reward_sum_std[-1])  )
+        num_steps = 0
+        flag = False
+        count_of_dones = 0
+        
+        max_iteration_number = timesteps//self.env.episode_length + 1
+        
+        for i_episode in range(max_iteration_number):
+            time_episode_start = time.time()
+            # reset batches
+            batch = {&#34;states&#34;:[] ,
+                    &#34;actions&#34;:[],
+                    &#34;next_states&#34;:[] ,
+                    &#34;rewards&#34;:[],
+                    &#34;returns&#34;:[],
+                    &#34;values&#34;:[],
+                    &#34;advantages&#34;:[],
+                    &#34;mask&#34;:[]}
+            valueBatch = {&#34;states&#34; :[],
+                        &#34;targets&#34; : []}
+
+
+            # while num_steps &lt; self.batch_size:
+            done = False
+            
+            while not done:
+                state = self.env.reset()
+                reward_sum = 0
+                states,actions,rewards,next_states,masks = [],[],[],[],[]
+                steps = 0
+                for t in range(self.env.episode_length):
+                    action = self.policy_net.get_action(state)[0] # agent
+                    next_state, reward, done, info = self.env.step(action)
+                    next_state = np.transpose(next_state)
+                    mask = 0 if done else 1
+
+                    masks.append(mask)
+                    states.append(state)
+                    actions.append(action)
+                    next_states.append(next_state)
+                    rewards.append(reward)
+
+                    state = next_state
+                    reward_sum += reward
+                    num_steps+=1
+                    
+                if done:
+                    count_of_dones += 1
+                    flag = True
+            
+                if flag and count_of_dones % print_every == 0:
+                    print(f&#39;Score at timestep {num_steps}: {reward_sum}.&#39;)
+                    flag = False
+                    
+                if num_steps &gt;= timesteps:
+                    break
+
+            batch[&#34;states&#34;].append(np.expand_dims(states, axis=1) )
+            batch[&#34;actions&#34;].append(actions)
+            batch[&#34;next_states&#34;].append(np.expand_dims(next_states, axis=1))
+            batch[&#34;rewards&#34;].append(rewards)
+            batch[&#34;mask&#34;].append(masks)
+            #num_steps += steps
+
+            self.prepare_data(batch,valueBatch,previousBatch)
+            self.update_policy(batch) # First policy update to avoid overfitting
+            self.update_value(valueBatch)
+
+            self.save_to_previousBatch(previousBatch,batch)
+
+            #print(&#34;episode %d | total: %.4f &#34;%( i_episode, time.time()-time_episode_start))
+            reward_sum_mean,reward_sum_std = self.calculate_loss(reward_sum_mean,reward_sum_std)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.calculate_loss"><code class="name flex">
+<span>def <span class="ident">calculate_loss</span></span>(<span>self, reward_sum_mean, reward_sum_std, test_number=10)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate mean cummulative reward for test_nubmer of trials</p>
+<p>Parameters:
+reward_sum_mean (list): holds the history of the means.
+reward_sum_std (list): holds the history of the std.</p>
+<p>Returns:
+list: new value appended means
+list: new value appended stds</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_loss(self, reward_sum_mean,reward_sum_std,test_number = 10):
+    &#34;&#34;&#34; 
+        Calculate mean cummulative reward for test_nubmer of trials
+
+        Parameters:
+        reward_sum_mean (list): holds the history of the means.
+        reward_sum_std (list): holds the history of the std.
+
+        Returns:
+        list: new value appended means
+        list: new value appended stds
+    &#34;&#34;&#34;
+    rewardSum = []
+    for i in range(test_number):
+        state = self.env.reset()
+        rewardSum.append(0)
+        for t in range(self.episode_length):
+            state, reward, done, _ = self.env.step(self.policy_net.get_action(state)[0] )
+            state = np.transpose(state)
+            rewardSum[-1] += reward
+            if done:
+                break
+    reward_sum_mean.append(np.array(rewardSum).mean())
+    reward_sum_std.append(np.array(rewardSum).std())
+    return reward_sum_mean, reward_sum_std</code></pre>
+</details>
+</dd>
+<dt id="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.learn"><code class="name flex">
+<span>def <span class="ident">learn</span></span>(<span>self, timesteps, print_every=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Trains the agent</p>
+<h1 id="params">Params</h1>
+<pre><code>timesteps (int): Number of timesteps the agent should interact with the environment
+print_every (int): Verbosity control
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def learn(self, timesteps, print_every = 1):
+    &#34;&#34;&#34;
+    Trains the agent
+
+    Params
+    ======
+        timesteps (int): Number of timesteps the agent should interact with the environment
+        print_every (int): Verbosity control
+    &#34;&#34;&#34;
+    signal.signal(signal.SIGINT, self.signal_handler)
+    time_start = time.time()
+
+    reward_sum_mean,reward_sum_std  = [], []
+    previousBatch= {&#34;states&#34;:torch.Tensor(0).to(self.device) ,
+                    &#34;returns&#34;:torch.Tensor(0).to(self.device)}
+
+    reward_sum_mean,reward_sum_std = self.calculate_loss(reward_sum_mean,reward_sum_std)
+    #print(&#34;Initial loss \n\tloss | mean : %6.4f / std : %6.4f&#34;%(reward_sum_mean[-1],reward_sum_std[-1])  )
+    num_steps = 0
+    flag = False
+    count_of_dones = 0
+    
+    max_iteration_number = timesteps//self.env.episode_length + 1
+    
+    for i_episode in range(max_iteration_number):
+        time_episode_start = time.time()
+        # reset batches
+        batch = {&#34;states&#34;:[] ,
+                &#34;actions&#34;:[],
+                &#34;next_states&#34;:[] ,
+                &#34;rewards&#34;:[],
+                &#34;returns&#34;:[],
+                &#34;values&#34;:[],
+                &#34;advantages&#34;:[],
+                &#34;mask&#34;:[]}
+        valueBatch = {&#34;states&#34; :[],
+                    &#34;targets&#34; : []}
+
+
+        # while num_steps &lt; self.batch_size:
+        done = False
+        
+        while not done:
+            state = self.env.reset()
+            reward_sum = 0
+            states,actions,rewards,next_states,masks = [],[],[],[],[]
+            steps = 0
+            for t in range(self.env.episode_length):
+                action = self.policy_net.get_action(state)[0] # agent
+                next_state, reward, done, info = self.env.step(action)
+                next_state = np.transpose(next_state)
+                mask = 0 if done else 1
+
+                masks.append(mask)
+                states.append(state)
+                actions.append(action)
+                next_states.append(next_state)
+                rewards.append(reward)
+
+                state = next_state
+                reward_sum += reward
+                num_steps+=1
+                
+            if done:
+                count_of_dones += 1
+                flag = True
+        
+            if flag and count_of_dones % print_every == 0:
+                print(f&#39;Score at timestep {num_steps}: {reward_sum}.&#39;)
+                flag = False
+                
+            if num_steps &gt;= timesteps:
+                break
+
+        batch[&#34;states&#34;].append(np.expand_dims(states, axis=1) )
+        batch[&#34;actions&#34;].append(actions)
+        batch[&#34;next_states&#34;].append(np.expand_dims(next_states, axis=1))
+        batch[&#34;rewards&#34;].append(rewards)
+        batch[&#34;mask&#34;].append(masks)
+        #num_steps += steps
+
+        self.prepare_data(batch,valueBatch,previousBatch)
+        self.update_policy(batch) # First policy update to avoid overfitting
+        self.update_value(valueBatch)
+
+        self.save_to_previousBatch(previousBatch,batch)
+
+        #print(&#34;episode %d | total: %.4f &#34;%( i_episode, time.time()-time_episode_start))
+        reward_sum_mean,reward_sum_std = self.calculate_loss(reward_sum_mean,reward_sum_std)</code></pre>
+</details>
+</dd>
+<dt id="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.predict"><code class="name flex">
+<span>def <span class="ident">predict</span></span>(<span>self, state)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Queries an action from the actor network, should be called from step.</p>
+<h2 id="parameters">Parameters</h2>
+<p>state - the observation at the current timestep</p>
+<h2 id="return">Return</h2>
+<p>action - the action to take, as a numpy array</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def predict(self, state):
+    &#34;&#34;&#34;
+                    Queries an action from the actor network, should be called from step.
+
+                    Parameters:
+                            state - the observation at the current timestep
+
+                    Return:
+                            action - the action to take, as a numpy array
+            &#34;&#34;&#34;
+    action = self.policy_net.get_action(state)[0]
+    return action</code></pre>
+</details>
+</dd>
+<dt id="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.prepare_data"><code class="name flex">
+<span>def <span class="ident">prepare_data</span></span>(<span>self, batch, valueBatch, previousBatch)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the batch data and calculate value,return and generalized advantage
+Parameters:
+==========
+batch
+valueBatch
+previousBatch</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def prepare_data(self, batch, valueBatch, previousBatch):
+    &#34;&#34;&#34; 
+        Get the batch data and calculate value,return and generalized advantage
+        Parameters:
+        ==========
+        batch
+        valueBatch
+        previousBatch
+        
+    &#34;&#34;&#34;
+
+    stateList = [ torch.from_numpy(np.concatenate(x,axis=0)).to(self.device) for x in batch[&#34;states&#34;]]
+    actionsList = [torch.from_numpy(np.concatenate(x,axis=0)).to(self.device) for x in batch[&#34;actions&#34;]]
+
+    for states in stateList:
+        value = self.value_net.forward(states)
+        batch[&#34;values&#34;].append(value)
+
+    advantagesList = []
+    returnsList = []
+    rewardsList = []
+    for rewards,values,masks in zip(batch[&#34;rewards&#34;],batch[&#34;values&#34;],batch[&#34;mask&#34;]):
+        returns = torch.Tensor(len(rewards),1).to(self.device)
+        advantages = torch.Tensor(len(rewards),1).to(self.device)
+        deltas = torch.Tensor(len(rewards),1).to(self.device)
+
+        prev_return = 0
+        prev_value = 0
+        prev_advantage = 0
+        for i in reversed(range(len(rewards))):
+            returns[i] = rewards[i] + self.gamma * prev_value * masks[i] # TD
+            # returns[i] = rewards[i] + self.gamma * prev_return * masks[i] # Monte Carlo
+            deltas[i] = rewards[i] + self.gamma * prev_value * masks[i]- values.data[i]
+            advantages[i] = deltas[i] + self.gamma * self.lambda_* prev_advantage* masks[i]
+
+            prev_return = returns[i, 0]
+            prev_value = values.data[i, 0]
+            prev_advantage = advantages[i, 0]
+        returnsList.append(returns)
+        advantagesList.append(advantages)
+        rewardsList.append(torch.Tensor(rewards).to(self.device))
+
+
+    batch[&#34;states&#34;] = torch.cat(stateList,0)
+    batch[&#34;actions&#34;] = torch.cat(actionsList,0)
+    batch[&#34;rewards&#34;] = torch.cat(rewardsList,0)
+    batch[&#34;returns&#34;] = torch.cat(returnsList,0)
+
+    advantagesList = torch.cat(advantagesList,0)
+    batch[&#34;advantages&#34;] = (advantagesList- advantagesList.mean()) / advantagesList.std()
+
+    valueBatch[&#34;states&#34;] = torch.cat(( previousBatch[&#34;states&#34;],batch[&#34;states&#34;]),0)
+    valueBatch[&#34;targets&#34;] =  torch.cat((previousBatch[&#34;returns&#34;],batch[&#34;returns&#34;]),0)</code></pre>
+</details>
+</dd>
+<dt id="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.save_to_previousBatch"><code class="name flex">
+<span>def <span class="ident">save_to_previousBatch</span></span>(<span>self, previousBatch, batch)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Save previous batch to use in future value optimization
+Parameters:
+previousBatch
+(dict of arrays of numpy)
+batch (dict of arrays of numpy)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save_to_previousBatch(self, previousBatch, batch):
+    &#34;&#34;&#34; 
+        Save previous batch to use in future value optimization
+        Parameters:
+        previousBatch  (dict of arrays of numpy)
+        batch (dict of arrays of numpy)
+    &#34;&#34;&#34;
+    if self.value_memory&lt;0:
+        print(&#34;Value memory should be equal or greater than zero&#34;)
+    elif self.value_memory&gt;0:
+        if previousBatch[&#34;returns&#34;].size() == 0:
+            previousBatch= {&#34;states&#34;:batch[&#34;states&#34;],
+                            &#34;returns&#34;:batch[&#34;returns&#34;]}
+        else:
+            previous_size = previousBatch[&#34;returns&#34;].size()[0]
+            size =  batch[&#34;returns&#34;].size()[0]
+            if previous_size/size == self.value_memory:
+                previousBatch[&#34;states&#34;] = torch.cat([previousBatch[&#34;states&#34;][size:],batch[&#34;states&#34;]],0)
+                previousBatch[&#34;returns&#34;] = torch.cat([previousBatch[&#34;returns&#34;][size:],batch[&#34;returns&#34;]],0)
+            else:
+                previousBatch[&#34;states&#34;] = torch.cat([previousBatch[&#34;states&#34;],batch[&#34;states&#34;]],0)
+                previousBatch[&#34;returns&#34;] = torch.cat([previousBatch[&#34;returns&#34;],batch[&#34;returns&#34;]],0)
+    if self.value_memory_shuffle:
+        permutation = torch.randperm(previousBatch[&#34;returns&#34;].size()[0])
+        previousBatch[&#34;states&#34;] = previousBatch[&#34;states&#34;][permutation]
+        previousBatch[&#34;returns&#34;] = previousBatch[&#34;returns&#34;][permutation]</code></pre>
+</details>
+</dd>
+<dt id="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.signal_handler"><code class="name flex">
+<span>def <span class="ident">signal_handler</span></span>(<span>self, sig, frame)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Signal Handler to save the networks when shutting down via ctrl+C
+Parameters:
+==========
+sig
+frame</p>
+<p>Returns:</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def signal_handler(self, sig, frame):
+    &#34;&#34;&#34; 
+        Signal Handler to save the networks when shutting down via ctrl+C
+        Parameters:
+        ==========
+        sig
+        frame
+        
+        Returns:
+    &#34;&#34;&#34;
+    if(self.save):
+        valueParam = get_flat_params_from(self.value_net)
+        policyParam = get_flat_params_from(self.policy_net)
+        saveParameterCsv(valueParam,self.load_dir+&#34;/ValueNet&#34;)
+        saveParameterCsv(policyParam,self.load_dir+&#34;/PolicyNet&#34;)
+        print(&#34;Networks are saved in &#34;+self.load_dir+&#34;/&#34;)
+
+    print(&#39;Closing!!&#39;)
+    env.close()
+    sys.exit(0)</code></pre>
+</details>
+</dd>
+<dt id="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.update_policy"><code class="name flex">
+<span>def <span class="ident">update_policy</span></span>(<span>self, batch)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get advantage , states and action and calls trpo step
+Parameters:
+batch (dict of arrays of numpy)
+Returns:</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_policy(self, batch):
+    &#34;&#34;&#34; 
+        Get advantage , states and action and calls trpo step
+        Parameters:
+        batch (dict of arrays of numpy)
+        Returns:
+    &#34;&#34;&#34;
+    advantages = batch[&#34;advantages&#34;]
+    states = batch[&#34;states&#34;]
+    actions = batch[&#34;actions&#34;]
+    trpo_step(self.policy_net, states,actions,advantages , self.max_kl, self.damping)</code></pre>
+</details>
+</dd>
+<dt id="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.update_value"><code class="name flex">
+<span>def <span class="ident">update_value</span></span>(<span>self, valueBatch)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get valueBatch and run adam optimizer to learn value function
+Parameters:
+valueBatch
+(dict of arrays of numpy)
+Returns:</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_value(self, valueBatch):
+    &#34;&#34;&#34; 
+        Get valueBatch and run adam optimizer to learn value function
+        Parameters:
+        valueBatch  (dict of arrays of numpy)
+        Returns:
+    &#34;&#34;&#34;
+    # shuffle the data
+    dataSize = valueBatch[&#34;targets&#34;].size()[0]
+    permutation = torch.randperm(dataSize)
+    input = valueBatch[&#34;states&#34;][permutation]
+    target = valueBatch[&#34;targets&#34;][permutation]
+
+    iter = self.val_opt_iter
+    batchSize = int(dataSize/ iter)
+
+    loss_fn = torch.nn.MSELoss(reduction=&#39;sum&#39;)
+    optimizer = torch.optim.Adam(self.value_net.parameters(), lr=self.lr)
+    for t in range(iter):
+        prediction = self.value_net(input[t*batchSize:t*batchSize+batchSize])
+        loss = loss_fn(prediction, target[t*batchSize:t*batchSize+batchSize])
+        # XXX : Comment out for debug
+        # if t%100==0:
+        #     print(&#34;\t%f&#34;%loss.data)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="AssetAllocator.algorithms.TRPO" href="index.html">AssetAllocator.algorithms.TRPO</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="AssetAllocator.algorithms.TRPO.agent.TRPOAgent" href="#AssetAllocator.algorithms.TRPO.agent.TRPOAgent">TRPOAgent</a></code></h4>
+<ul class="">
+<li><code><a title="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.calculate_loss" href="#AssetAllocator.algorithms.TRPO.agent.TRPOAgent.calculate_loss">calculate_loss</a></code></li>
+<li><code><a title="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.learn" href="#AssetAllocator.algorithms.TRPO.agent.TRPOAgent.learn">learn</a></code></li>
+<li><code><a title="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.predict" href="#AssetAllocator.algorithms.TRPO.agent.TRPOAgent.predict">predict</a></code></li>
+<li><code><a title="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.prepare_data" href="#AssetAllocator.algorithms.TRPO.agent.TRPOAgent.prepare_data">prepare_data</a></code></li>
+<li><code><a title="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.save_to_previousBatch" href="#AssetAllocator.algorithms.TRPO.agent.TRPOAgent.save_to_previousBatch">save_to_previousBatch</a></code></li>
+<li><code><a title="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.signal_handler" href="#AssetAllocator.algorithms.TRPO.agent.TRPOAgent.signal_handler">signal_handler</a></code></li>
+<li><code><a title="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.update_policy" href="#AssetAllocator.algorithms.TRPO.agent.TRPOAgent.update_policy">update_policy</a></code></li>
+<li><code><a title="AssetAllocator.algorithms.TRPO.agent.TRPOAgent.update_value" href="#AssetAllocator.algorithms.TRPO.agent.TRPOAgent.update_value">update_value</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
