@@ -1,10 +1,16 @@
-<a href="https://link_to_final_report">
+<a href="#link_to_final_report">
 <p align="center">
-<img height=100 src="images/candlestick.png"/>
-<img height=100 src="images/portfolio.png"/>
+<img height=100 src="https://raw.githubusercontent.com/Eloyjaws/AssetAllocator/master/images/candlestick.png" />
+<img height=100 src="https://raw.githubusercontent.com/Eloyjaws/AssetAllocator/master/images/portfolio.png" />
+
 </p></a>
 <p align="center">
   <strong>Automating Portfolio Allocation with Reinforcement Learning</strong>
+</p>
+
+<p align="center">
+  <strong><a href="https://eloyjaws.github.io/AssetAllocator/docs/">Docs</a>  | 
+  <a href="https://github.com/Eloyjaws/AssetAllocator/tree/master/examples">Examples</a></strong>
 </p>
 
 # AssetAllocator
@@ -32,6 +38,9 @@ pip install AssetAllocator
 
 
 ### Running Experiments
+
+We wrote a generic Trainer and Experiment class that can be used to train any of the agents. All you need to do is your hyperparameter dictionaries and the agent name to run an experiment
+
 ```
 import torch
 from AssetAllocator.experiment import Experiment

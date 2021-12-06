@@ -14,7 +14,7 @@ with open("requirements.txt", "rb") as reqs:
 
 setuptools.setup(
     name="AssetAllocator",
-    version="0.0.8",
+    version="0.0.10",
     author="Adebayo Oshingbesan, Eniola Ajiboye, Peruth Kamashazi, Timothy Mbaka",
     author_email="eajiboye@andrew.cmu.edu",
     description="Train RL agents to manage a portfolio",
