@@ -60,7 +60,7 @@ exp.run('SAC')
 ```
 
 ### Hyperparameter Tuning
-The Experiment class has support for overriding agent, trainer, and environment parameters. Check the [docs](https://eloyjaws.github.io/AssetAllocator/) for more details about the [agent](https://eloyjaws.github.io/AssetAllocator/algorithms/index.html), [trainer](https://eloyjaws.github.io/AssetAllocator/trainer.html), and [environment](https://eloyjaws.github.io/AssetAllocator/environments/PortfolioGym.html) and pass in the appropriate dictionaries to the Experiment class. An example can be seen below
+The Experiment class has support for overriding agent, trainer, and environment parameters. Check the [docs](https://eloyjaws.github.io/AssetAllocator/docs/) for more details about the [agent](https://eloyjaws.github.io/AssetAllocator/docs/algorithms/index.html), [trainer](https://eloyjaws.github.io/AssetAllocator/docs/trainer.html), and [environment](https://eloyjaws.github.io/AssetAllocator/docs/environments/PortfolioGym.html) and pass in the appropriate dictionaries to the Experiment class. An example can be seen below
 
 ```
 trainer_kw = {
