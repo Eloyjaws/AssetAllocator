@@ -117,7 +117,7 @@ class Experiment:
                         elif model_name in ['NAF']:
                             model = NAFAgent(env, **self.model_kwargs)
                         elif model_name in ['PPO']:
-                            model = PPO(env, **self.model_kwargs)
+                            model = PPOAgent(env, **self.model_kwargs)
                         elif model_name in ['TRPO']:
                             #env = SubprocVecEnv([env  for i in range(4)])
                             model = TRPOAgent(env, **self.model_kwargs)
